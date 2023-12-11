@@ -1,6 +1,6 @@
-import { recordFn } from "/js/recordButton.js";
-import { playFn } from "/js/playButton.js";
-import { uploadFn } from "/js/uploadButton.js";
+import { recordFn } from '/js/recordButton.js';
+import { playFn } from '/js/playButton.js';
+import { uploadFn } from '/js/uploadButton.js';
 import uuidv4 from '/utils/uuid/v4.js';
 
 class App {
