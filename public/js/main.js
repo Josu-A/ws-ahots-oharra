@@ -208,6 +208,12 @@ fetch('/api/list')
         leftIcon.src = 'images/copy.svg';
         leftIcon.addEventListener('click', () => {
             navigator.clipboard.writeText(`${window.location.origin}/play/${file.filename}`);
+            Snackbar.show({
+                text : 'Esteka arbelean kopiatu da!',
+                pos : 'bottom-center',
+                showAction : false,
+                customClass : 'my-snackbar'
+            });
         });
         listItem.appendChild(leftIcon);
 

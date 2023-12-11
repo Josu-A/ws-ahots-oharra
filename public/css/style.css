@@ -36,7 +36,7 @@ body {
 }
 
 #container {
-    background: linear-gradient(135deg, #999, #eee); /* Diagonal gradient for duotone effect */
+    background: hsl(0, 0%, 88%);
     min-height: 100vh;
     padding-inline: 1em;
 }
@@ -217,3 +217,7 @@ a {
     }
 }
 
+.my-snackbar {
+    justify-content: center!important;
+    text-align: center;
+}
