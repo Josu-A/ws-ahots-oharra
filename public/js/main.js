@@ -1,6 +1,7 @@
 import { recordFn } from "/js/recordButton.js";
 import { playFn } from "/js/playButton.js";
 import { uploadFn } from "/js/uploadButton.js";
+import uuidv4 from '/utils/uuid/v4.js';
 
 class App {
     state = {
@@ -26,6 +27,11 @@ class App {
         this.uploadButton = document.querySelector('#upload-button > .custom-button');
 
         this.setState({ 'currentState' : this.state.idle });
+
+        if (!localStorage.getItem('uuid')) {
+            localStorage.setItem('uuid', uuidv4());
+        }
+        this.uuid = localStorage.getItem('uuid');
     }
 
     setUpButton(wrapperId, innerHtml, clickFunction) {
