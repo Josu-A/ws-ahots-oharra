@@ -8,21 +8,27 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <title>Ahots oharrak</title>
     <link rel="stylesheet" href="/css/style.css">
-    <script type="module" src="/js/main.js"></script>
+    <script src="/utils/moment/moment.js"></script>
+    <script src="/utils/moment/eu.js"></script>
+    <script type="module" src="/js/main.js" defer></script>
 </head>
 <body>
-    <header>
-        <h1>Ahots oharrak</h1>
-    </header>
-    <main>
-        <section class="ahots-buttons">
-            <div id="record-button"></div>
-            <div id="play-button"></div>
-            <div id="upload-button"></div>
-        </section>
-    </main>
-    <footer>
-        <p>Web Sistemak (2023-2024)</p>
-    </footer>
+    <div id="container">
+        <header>
+            <h1><span style="color: azure">Ahots</span> <span style="color: deeppink">oharrak</span></h1>
+        </header>
+        <main>
+            <section class="ahots-buttons">
+                <div id="record-button"></div>
+                <div id="play-button"></div>
+                <div id="upload-button"></div>
+            </section>
+            <section class="ahots-list">
+            </section>
+        </main>
+        <footer>
+            <p>Web Sistemak (2023-2024)</p>
+        </footer>
+    </div>
 </body>
 </html>

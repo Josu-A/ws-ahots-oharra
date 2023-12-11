@@ -191,3 +191,40 @@ class App {
 }
 
 window.myApp = new App();
+
+moment.locale('eu');
+fetch('/api/list')
+.then(response => response.text())
+.then(data => JSON.parse(data).files)
+.then(files => {
+    files.forEach(file => {
+        let listItem = document.createElement('div');
+        listItem.className = 'ahots-list-item';
+        document.querySelector('.ahots-list').appendChild(listItem);
+
+        let leftIcon = document.createElement('img');
+        leftIcon.className = 'ahots-list-item-icon list-icon-left';
+        leftIcon.alt = 'Copy';
+        leftIcon.src = 'images/copy.svg';
+        leftIcon.addEventListener('click', () => {
+            navigator.clipboard.writeText(`${window.location.origin}/play/${file.filename}`);
+        });
+        listItem.appendChild(leftIcon);
+
+        let itemText = document.createElement('span');
+        itemText.className = 'ahots-list-item-text';
+        itemText.innerText = moment(file.date).fromNow().toLocaleLowerCase();
+        listItem.appendChild(itemText);
+
+        let rightIconWrapper = document.createElement('a');
+        rightIconWrapper.className = 'list-icon-wrapper';
+        rightIconWrapper.href = `/api/delete/${window.myApp.uuid}/${file.filename}`
+        listItem.appendChild(rightIconWrapper);
+
+        let rightIcon = document.createElement('img');
+        rightIcon.className = 'ahots-list-item-icon list-icon-right';
+        rightIcon.alt = 'Remove';
+        rightIcon.src = 'images/trash3.svg';
+        rightIconWrapper.appendChild(rightIcon);
+    });       
+});
