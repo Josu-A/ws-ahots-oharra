@@ -26,20 +26,66 @@ npm dependenziak instalatu:
 npm install
 ```
 
-Sare aplikazioa hasieratu defektuzko 3000 portuan:
+Sare aplikazioa hasieratu defektuzko 3100 portuan:
 
 ```bash
 npm start
 ```
 
+### Portu zehatzean hasieratu
+
 Portu zehatz batean hasieratzeko, *x* portu zenbakia izanik:
+
+<details><summary>Linux / MacOS</summary>
 
 ```bash
 set PORT=x & npm start
 ```
 
-Debuging moduan hasieratzeko:
+</details>
+
+<details><summary>Windows Command Prompt</summary>
+
+```cmd
+set PORT=x & npm start
+```
+
+</details>
+
+<details><summary>Windows PowerShell</summary>
+
+```ps
+$env:PORT='x'; npm start
+```
+
+</details>
+
+### Debugging moduan hasieratu
+
+<details><summary>Linux / MacOS</summary>
 
 ```bash
-set DEBUG=ws-ahots-oharra:* & npm start
+DEBUG=ahots-oharra:* npm start
 ```
+
+</details>
+
+<details><summary>Windows Command Prompt</summary>
+
+```cmd
+set DEBUG=ahots-oharra:* & npm start
+```
+
+</details>
+
+<details><summary>Windows PowerShell</summary>
+
+```ps
+$env:DEBUG='ahots-oharra:*'; npm start
+```
+
+</details>
+
+## Egileak
+
+**Josu Aguinaga**-k eginda eta [ws.aguijos.eus](ws.aguijos.eus)-en publikatua.

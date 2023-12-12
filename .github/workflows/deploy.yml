@@ -1,0 +1,23 @@
+name: Deploy App
+on:
+    push:
+        branches:
+            - main
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Deploy NodeJS App
+            uses: appleboy/ssh-action@v1.0.0
+            with:
+                host: ${{ secrets.SERVER_IP }}
+                username: azureuser
+                key: ${{ secrets.SSH_PRIVATE_KEY }}
+                script_stop: true
+                script: |
+                    cd ~/apps/ws/www
+                    git pull
+                    export NVM_DIR=~/.nvm
+                    source ~/.nvm/nvm.sh
+                    npm install
+                    pm2 restart bin/www
