@@ -17,7 +17,6 @@ class App {
     recordMaxTime = 300;
     
     constructor() {
-        this.init();
         this.setUpButton('record-button', recordFn(), 'myApp.record();');
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
         this.setUpButton('upload-button', uploadFn(), 'myApp.upload()');
@@ -25,6 +24,8 @@ class App {
         this.recordButton = document.querySelector('#record-button > .custom-button');
         this.playButton = document.querySelector('#play-button > .custom-button');
         this.uploadButton = document.querySelector('#upload-button > .custom-button');
+
+        this.init();
 
         this.setState({ 'currentState' : this.state.idle });
 
@@ -42,9 +43,11 @@ class App {
     }
     
     async init() {
+        this.buttonToggleDisable(this.recordButton);
         let stream = await navigator.mediaDevices.getUserMedia({ audio : true });
         this.initAudio();
         this.initRecord(stream);
+        this.buttonToggleDisable(this.recordButton);
     }
 
     initAudio() {
@@ -114,7 +117,7 @@ class App {
     }
 
     record() {
-        this.playButton.setAttribute('disabled', true);
+        this.buttonDisable(this.playButton);
         this.recordButton.classList.add('active');
         if (this.audioHasBeenRecorded()) {
             this.stopAudio();
@@ -136,7 +139,7 @@ class App {
         clearInterval(this.recordTimer);
 
         this.recordButton.setAttribute('onclick', 'myApp.record();');
-        this.playButton.removeAttribute('disabled');
+        this.buttonToggleDisable(this.playButton);
     }
 
     playAudio() {
@@ -187,6 +190,23 @@ class App {
 
     audioHasBeenRecorded() {
         return this.audio.src !== '';
+    }
+
+    buttonEnable(button) {
+        button.removeAttribute('disabled');
+    }
+
+    buttonDisable(button) {
+        button.setAttribute('disabled', true);
+    }
+
+    buttonToggleDisable(button) {
+        if (button.disabled) {
+            this.buttonEnable(button);
+        }
+        else {
+            this.buttonDisable(button);
+        }
     }
 }
 
