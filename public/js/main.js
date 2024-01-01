@@ -22,14 +22,20 @@ class App {
         if (!playMode) {
             this.setUpButton('record-button', recordFn(), 'myApp.record();');
             this.setUpButton('upload-button', uploadFn(), 'myApp.upload()');
+            this.recordButton = document.querySelector('#record-button > .custom-button');
+            this.uploadButton = document.querySelector('#upload-button > .custom-button');
         }
+
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
-
-        this.recordButton = document.querySelector('#record-button > .custom-button');
         this.playButton = document.querySelector('#play-button > .custom-button');
-        this.uploadButton = document.querySelector('#upload-button > .custom-button');
 
-        this.init();
+
+        if (!playMode) {
+            this.init();
+        }
+        else {
+            this.initAudio();
+        }
 
         this.setState({ 'currentState' : this.state.idle });
 
