@@ -4,7 +4,7 @@ const mongojs = require('mongojs');
 const db = mongojs('grabaketak', ['users']);
 const multer = require('multer');
 
-const uploadFolder = 'upload/';
+const uploadFolder = 'recordings/';
 
 const storage = multer.diskStorage({
     "destination" : function(req, file, cb) {
@@ -25,13 +25,13 @@ const storage = multer.diskStorage({
 const upload = multer({
     "storage" : storage,
     "fileFilter" : function(req, file, cb) {
-        const acceptedMimeTypes = ['audio/vorbis'];
+        const acceptedMimeTypes = ['audio/ogg'];
         cb(null, !file || acceptedMimeTypes.includes(file.mimetype));
     },
     "limits" : {
-        "fileSize" : 10 * 1024 * 1024
+        "fileSize" : 2.5 * 1024 * 1024
     }
-});
+}).single('recording');
 
 const handleList = async (id) => {
     let filesFromUser = [];
