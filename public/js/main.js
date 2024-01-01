@@ -17,9 +17,13 @@ class App {
     recordMaxTime = 300;
     
     constructor() {
-        this.setUpButton('record-button', recordFn(), 'myApp.record();');
+        const playMode = new URLSearchParams(window.location.search).get("play");
+
+        if (!playMode) {
+            this.setUpButton('record-button', recordFn(), 'myApp.record();');
+            this.setUpButton('upload-button', uploadFn(), 'myApp.upload()');
+        }
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
-        this.setUpButton('upload-button', uploadFn(), 'myApp.upload()');
 
         this.recordButton = document.querySelector('#record-button > .custom-button');
         this.playButton = document.querySelector('#play-button > .custom-button');
