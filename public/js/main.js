@@ -17,9 +17,9 @@ class App {
     recordMaxTime = 300;
     
     constructor() {
-        const playMode = new URLSearchParams(window.location.search).get("play");
+        this.playMode = new URLSearchParams(window.location.search).get("play");
 
-        if (!playMode) {
+        if (!this.playMode) {
             this.setUpButton('record-button', recordFn(), 'myApp.record();');
             this.setUpButton('upload-button', uploadFn(), 'myApp.upload()');
             this.recordButton = document.querySelector('#record-button > .custom-button');
@@ -28,14 +28,8 @@ class App {
 
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
         this.playButton = document.querySelector('#play-button > .custom-button');
-
-
-        if (!playMode) {
-            this.init();
-        }
-        else {
-            this.initAudio();
-        }
+        
+        this.init();
 
         this.setState({ 'currentState' : this.state.idle });
 
@@ -53,11 +47,13 @@ class App {
     }
     
     async init() {
-        this.buttonToggleDisable(this.recordButton);
-        let stream = await navigator.mediaDevices.getUserMedia({ audio : true });
+        if (!this.playMode) {
+            this.buttonToggleDisable(this.recordButton);
+            let stream = await navigator.mediaDevices.getUserMedia({ audio : true });
+            this.initRecord(stream);
+            this.buttonToggleDisable(this.recordButton);
+        }
         this.initAudio();
-        this.initRecord(stream);
-        this.buttonToggleDisable(this.recordButton);
     }
 
     initAudio() {
@@ -95,6 +91,15 @@ class App {
     }
 
     render() {
+        if (!this.playMode) {
+            this.renderNonPlayModeMode();
+        }
+        else {
+            this.renderPlayMode();
+        }
+    }
+
+    renderNonPlayModeMode() {
         const recordButtonText = this.recordButton.querySelector('.custom-button-text');
         const playButtonText = this.playButton.querySelector('.custom-button-text');
         let formattedTime;
@@ -126,6 +131,32 @@ class App {
                 break;
         }
     }
+
+    renderPlayMode() {
+        const playButtonText = this.playButton.querySelector('.custom-button-text');
+        let formattedTime;
+        switch (this.state.currentState) {
+            case this.state.idle:
+                break;
+            case this.state.playing:
+                formattedTime = this.formatFromSeconds(this.audio.currentTime);
+                playButtonText.textContent = `gelditu (${formattedTime.minutes}:${formattedTime.seconds})`;
+                break;
+            case this.state.recording:
+                break;
+            case this.state.recordingEnded:
+            case this.state.playingEnded:
+                formattedTime = this.formatFromSeconds(this.audio.duration);
+                playButtonText.textContent = `entzun (${formattedTime.minutes}:${formattedTime.seconds})`;
+                break;
+            case this.state.uploading:
+                break;
+            case this.state.deleting:
+                break;
+            default:
+                break;
+        }
+    }    
 
     record() {
         this.buttonDisable(this.playButton);
