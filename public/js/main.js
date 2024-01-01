@@ -24,6 +24,8 @@ class App {
             this.setUpButton('upload-button', uploadFn(), 'myApp.upload()');
             this.recordButton = document.querySelector('#record-button > .custom-button');
             this.uploadButton = document.querySelector('#upload-button > .custom-button');
+
+            this.createListOfAudiosSection();
         }
 
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
@@ -250,51 +252,57 @@ class App {
             this.buttonDisable(button);
         }
     }
+
+    createListOfAudiosSection() {
+        const ahotsListSection = document.createElement('section');
+        ahotsListSection.className = 'ahots-list';
+        document.querySelector('main').appendChild(ahotsListSection);
+
+        fetch('/api/list')
+        .then(response => response.text())
+        .then(data => JSON.parse(data).files)
+        .then(files => {
+            files.forEach(file => this.createSavedAudioElement(file));       
+        });
+    }
+
+    createSavedAudioElement(savedFile) {
+        let listItem = document.createElement('div');
+        listItem.className = 'ahots-list-item';
+        document.querySelector('.ahots-list').appendChild(listItem);
+    
+        let leftIcon = document.createElement('img');
+        leftIcon.className = 'ahots-list-item-icon list-icon-left';
+        leftIcon.alt = 'Copy';
+        leftIcon.src = 'images/copy.svg';
+        leftIcon.addEventListener('click', () => {
+            navigator.clipboard.writeText(`${window.location.origin}/play/${savedFile.filename}`);
+            Snackbar.show({
+                text : 'Esteka arbelean kopiatu da!',
+                pos : 'bottom-center',
+                showAction : false,
+                customClass : 'my-snackbar'
+            });
+        });
+        listItem.appendChild(leftIcon);
+    
+        let itemText = document.createElement('span');
+        itemText.className = 'ahots-list-item-text';
+        itemText.innerText = moment(savedFile.date).fromNow().toLocaleLowerCase();
+        listItem.appendChild(itemText);
+    
+        let rightIconWrapper = document.createElement('a');
+        rightIconWrapper.className = 'list-icon-wrapper';
+        rightIconWrapper.href = `/api/delete/${window.myApp.uuid}/${savedFile.filename}`
+        listItem.appendChild(rightIconWrapper);
+    
+        let rightIcon = document.createElement('img');
+        rightIcon.className = 'ahots-list-item-icon list-icon-right';
+        rightIcon.alt = 'Remove';
+        rightIcon.src = 'images/trash3.svg';
+        rightIconWrapper.appendChild(rightIcon);
+    }
 }
 
 moment.locale('eu');
 window.myApp = new App();
-
-function createSavedAudioElement(savedFile) {
-    let listItem = document.createElement('div');
-    listItem.className = 'ahots-list-item';
-    document.querySelector('.ahots-list').appendChild(listItem);
-
-    let leftIcon = document.createElement('img');
-    leftIcon.className = 'ahots-list-item-icon list-icon-left';
-    leftIcon.alt = 'Copy';
-    leftIcon.src = 'images/copy.svg';
-    leftIcon.addEventListener('click', () => {
-        navigator.clipboard.writeText(`${window.location.origin}/play/${savedFile.filename}`);
-        Snackbar.show({
-            text : 'Esteka arbelean kopiatu da!',
-            pos : 'bottom-center',
-            showAction : false,
-            customClass : 'my-snackbar'
-        });
-    });
-    listItem.appendChild(leftIcon);
-
-    let itemText = document.createElement('span');
-    itemText.className = 'ahots-list-item-text';
-    itemText.innerText = moment(savedFile.date).fromNow().toLocaleLowerCase();
-    listItem.appendChild(itemText);
-
-    let rightIconWrapper = document.createElement('a');
-    rightIconWrapper.className = 'list-icon-wrapper';
-    rightIconWrapper.href = `/api/delete/${window.myApp.uuid}/${savedFile.filename}`
-    listItem.appendChild(rightIconWrapper);
-
-    let rightIcon = document.createElement('img');
-    rightIcon.className = 'ahots-list-item-icon list-icon-right';
-    rightIcon.alt = 'Remove';
-    rightIcon.src = 'images/trash3.svg';
-    rightIconWrapper.appendChild(rightIcon);
-}
-
-fetch('/api/list')
-.then(response => response.text())
-.then(data => JSON.parse(data).files)
-.then(files => {
-    files.forEach(file => createSavedAudioElement(file));       
-});
