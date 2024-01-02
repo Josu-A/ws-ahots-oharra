@@ -1,8 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const multer = require('multer');
 const mongojs = require('mongojs');
 const db = mongojs('grabaketak', ['users']);
+const path = require('path');
+const fs = require('fs');
 
 const uploadFolder = 'recordings/';
 
@@ -76,5 +78,58 @@ router.post('/upload/:name', async (req, res) => {
         });
     });
 });
+
+const deleteUploadedAudioFile = fileName => {
+    const projectRoot = path.resolve(__dirname, '..');
+    const filePath = path.join(projectRoot, uploadFolder, fileName);
+    fs.unlink(filePath, error => {
+        if (error) {
+            console.error('Errorea fitxategia ezabatzean: ', error);
+        }
+        else {
+            console.log(`${fileName} fitxategia ezabatu da.`);
+            return res.status(201).json(await handleList(req.params.name));
+        }
+    });
+}
+
+router.post('/delete/:name/:filename', async (req, res) => {
+    await db.users.findOne({ "$and" : [{ "name" : req.params.name }, { "filename" : req.params.filename }] }, async (error, audioEntry) => {
+        if (error) {
+            console.error(error);
+            return res.status(500).json({ "error" : "Internal Server Error" });
+        }
+        else if (!audioEntry) {
+            return res.status(404).json({ "error" : "Erabiltzaile honek ez du izen horreko audiorik" });
+        }
+        const audioEntryFileName = audioEntry.filename;
+        const audioEntryId = audioEntry._id;
+
+        await db.users.remove({ "_id" : audioEntryId }, err => {
+            if (err) {
+                console.error(err);
+                return res.status(404).json({ "error" : "Audioa ez da ezabatu." });
+            }
+            const projectRoot = path.resolve(__dirname, '..');
+            const filePath = path.join(projectRoot, uploadFolder, audioEntryFileName);
+            fs.unlink(filePath, async error => {
+                if (error) {
+                    console.error('Errorea fitxategia ezabatzean: ', error);
+                }
+                else {
+                    console.log(`${audioEntryFileName} fitxategia ezabatu da.`);
+                    return res.status(200).json(await handleList(req.params.name));
+                }
+            });
+        });
+    });
+});
+
+router.get('/play/:filename', (req, res) => {
+    // recordings karpetatik :filename irakurri
+    // ez balego, errore bat bueltatu (404)
+    // bestela datubasean :filename horren azken atzipen data eguneratu
+    // bukatzeko, fitxategia bidali sendFile erabiliz
+})
 
 module.exports = router;
