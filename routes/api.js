@@ -59,7 +59,6 @@ const handleList = async (id) => {
             }
         });
     });
-    
 };
 
 router.get('/list/:id', async (req, res) => {
@@ -68,7 +67,7 @@ router.get('/list/:id', async (req, res) => {
         return res.status(200).json(filesObject);
     }
     catch (error) {
-        return res.status(500).json({ error: 'Internal Server Error' });
+        return res.status(500).json({ "error" : "Internal Server Error" });
     }
 });
 
@@ -93,40 +92,48 @@ router.post('/upload/:name', (req, res) => {
                 return res.status(404).json({ "error" : "Audio berriaren metadatua ez da sartu datu-basean." });
             }
             console.log('New DB entry: ', audioEntry);
-            return res.status(201).json(await handleList(req.params.name));
+            try {
+                const filesObject = await handleList(req.params.name);
+                return res.status(201).json(filesObject);
+            }
+            catch (error) {
+                return res.status(500).json({ "error" : "Internal Server Error" });
+            }
         });
     });
 });
 
 router.post('/delete/:name/:filename', async (req, res) => {
-    await db.users.findOne({ "$and" : [{ "name" : req.params.name }, { "filename" : req.params.filename }] }, async (error, audioEntry) => {
-        if (error) {
-            console.error(error);
-            return res.status(500).json({ "error" : "Internal Server Error" });
-        }
-        else if (!audioEntry) {
-            return res.status(404).json({ "error" : "Erabiltzaile honek ez du izen horreko audiorik" });
-        }
-        const audioEntryFileName = audioEntry.filename;
-        const audioEntryId = audioEntry._id;
-
-        await db.users.remove({ "_id" : audioEntryId }, err => {
-            if (err) {
-                console.error(err);
-                return res.status(404).json({ "error" : "Audioa ez da ezabatu." });
+    await db.users.findOne({ "$and" : [{ "name" : req.params.name }, { "filename" : req.params.filename }] },
+        async (error, audioEntry) => {
+            if (error) {
+                console.error(error);
+                return res.status(500).json({ "error" : "Internal Server Error" });
             }
-            const projectRoot = path.resolve(__dirname, '..');
-            const filePath = path.join(projectRoot, uploadFolder, audioEntryFileName);
-            fs.unlink(filePath, async error => {
-                if (error) {
-                    console.error('Errorea fitxategia ezabatzean: ', error);
-                    return res.status(404).json({ "error" : "Audio fitxategia ez da ezabatu." });
+            else if (!audioEntry) {
+                return res.status(404).json({ "error" : "Erabiltzaile honek ez du izen horreko audiorik" });
+            }
+            const audioEntryFileName = audioEntry.filename;
+            const audioEntryId = audioEntry._id;
+
+            await db.users.remove({ "_id" : audioEntryId }, err => {
+                if (err) {
+                    console.error(err);
+                    return res.status(404).json({ "error" : "Audioa ez da ezabatu." });
                 }
-                console.log(`${audioEntryFileName} fitxategia ezabatu da.`);
-                return res.status(200).json(await handleList(req.params.name));
+                const projectRoot = path.resolve(__dirname, '..');
+                const filePath = path.join(projectRoot, uploadFolder, audioEntryFileName);
+                fs.unlink(filePath, async error => {
+                    if (error) {
+                        console.error('Errorea fitxategia ezabatzean: ', error);
+                        return res.status(404).json({ "error" : "Audio fitxategia ez da ezabatu." });
+                    }
+                    console.log(`${audioEntryFileName} fitxategia ezabatu da.`);
+                    return res.status(200).json(await handleList(req.params.name));
+                });
             });
-        });
-    });
+        }
+    );
 });
 
 router.get('/play/:filename', async (req, res) => {
