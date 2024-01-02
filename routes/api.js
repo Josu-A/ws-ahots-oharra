@@ -46,7 +46,6 @@ const handleList = async (id) => {
                 filesFromUser = userFiles;
             }
         });
-    console.log({"files" : filesFromUser });
     return { "files" : filesFromUser };
 };
 router.get('/list/:id', async (req, res) => {
