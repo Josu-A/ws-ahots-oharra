@@ -7,7 +7,7 @@ body {
     font: 28px "Lucida Grande", Helvetica, Arial, sans-serif;
     margin: 0;
     padding-inline: 20vw;
-    transition: padding-inline 0.8s ease-in-out;
+    transition: padding-inline 0.3s ease-in-out;
     word-break: break-word;
 }
 
