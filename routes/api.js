@@ -44,8 +44,8 @@ const handleList = async (id) => {
     let filesFromUser = [];
     console.log(typeof(id))
     await db.users.find({ "name" : id },
-        //{ "filename" : 1, "date" : 1, "_id" : 0 },
-        //{ "$sort" : { "date" : -1 }, "limit" : 5 },
+        { "filename" : 1, "date" : 1, "_id" : 0 },
+        { "$sort" : { "date" : -1 }, "limit" : 5 },
         (error, userFiles) => {
             if (error) {
                 console.error(error);
