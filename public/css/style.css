@@ -168,10 +168,23 @@ main, .ahots-list {
     justify-content: center;
     position: relative;
     width: 100%;
+
+    height: fit-content;
+    justify-content: space-evenly;
+    padding-block: 1em;
 }
 
 .ahots-list-item:not(:last-of-type) {
     margin-bottom: 8px;
+}
+
+.ahots-list-item-text {
+    flex-grow: unset;
+}
+
+.ahots-list-item-icon {
+    
+    padding-inline: .2em;
 }
 
 .ahots-list-item-icon, .list-icon-wrapper {
@@ -179,6 +192,8 @@ main, .ahots-list {
     height: 1.3em;
     position: absolute;
     width: 1.3em;
+    
+    position: static;
 }
 
 .ahots-list-item-icon:hover {
@@ -192,6 +207,7 @@ main, .ahots-list {
 
 .list-icon-wrapper {
     right: .7em;
+    width: auto;
 }
 
 @media(max-width: 400px) {
@@ -202,28 +218,6 @@ main, .ahots-list {
     }
     .custom-button-icon {
         position: static;
-    }
-
-    .ahots-list-item {
-        height: fit-content;
-        justify-content: space-evenly;
-        padding-block: 1em;
-    }
-
-    .ahots-list-item-icon {
-        padding-inline: .2em;
-    }
-    
-    .list-icon-wrapper {
-        width: auto;
-    }
-    
-    .ahots-list-item-icon, .list-icon-wrapper {
-        position: static;
-    }
-    
-    .ahots-list-item-text {
-        flex-grow: unset;
     }
 }
 
