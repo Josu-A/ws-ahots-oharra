@@ -110,11 +110,26 @@ router.post('/delete/:name/:filename', async (req, res) => {
     });
 });
 
-router.get('/play/:filename', (req, res) => {
-    // recordings karpetatik :filename irakurri
-    // ez balego, errore bat bueltatu (404)
-    // bestela datubasean :filename horren azken atzipen data eguneratu
-    // bukatzeko, fitxategia bidali sendFile erabiliz
-})
+router.get('/play/:filename', async (req, res) => {
+    const projectRoot = path.resolve(__dirname, '..');
+    const filePath = path.join(projectRoot, uploadFolder, req.params.filename);
+
+    try {
+        fs.readFile(filePath);
+        await db.users.update({ "filename" : req.params.filename },
+            { "$set" : { "accessed" : Date.now() } }
+        );
+        res.sendFile(filePath, (err) => {
+            if (err) {
+                console.error('Errorea fitxategia bidaltzean:', err);
+                return res.status(500).json({ "error" : "Internal Server Error" });
+            }
+            console.log(`${req.params.filename} fitxategia ondo bidalia`);
+        });
+    } catch (error) {
+        console.error('Errorrea fitxategia irakurtzen:', error);
+        return res.status(404).json({ "error": "Audio fitxategia ez da aurkitu." });
+    }
+});
 
 module.exports = router;
