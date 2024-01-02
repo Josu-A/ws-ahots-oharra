@@ -58,8 +58,8 @@ const handleList = async (id) => {
     );
 };
 
-router.get('/list/:id', async (req, res) => {
-    const filesObject = await handleList(req.params.id)
+router.get('/list/:id', (req, res) => {
+    const filesObject = handleList(req.params.id)
     return res.status(200).json(filesObject);
 });
 
