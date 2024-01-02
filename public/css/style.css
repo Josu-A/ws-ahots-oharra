@@ -153,7 +153,7 @@ main, .ahots-list {
     filter: invert(87%) sepia(0%) saturate(1%) hue-rotate(321deg) brightness(91%) contrast(90%);
 }
 
-.custom-button-text, .ahots-list-item-text {
+.custom-button-text {
     flex-grow: 1;
     text-align: center;
 }
@@ -164,14 +164,11 @@ main, .ahots-list {
     box-shadow: 0 0px 6px 1px hsla(0, 0%, 0%, 0.2);
     color: hsl(0, 0%, 10%);
     display: flex;
-    height: 2em;
-    justify-content: center;
-    position: relative;
-    width: 100%;
-
     height: fit-content;
     justify-content: space-evenly;
     padding-block: 1em;
+    position: relative;
+    width: 100%;
 }
 
 .ahots-list-item:not(:last-of-type) {
@@ -180,20 +177,18 @@ main, .ahots-list {
 
 .ahots-list-item-text {
     flex-grow: unset;
+    text-align: center;
 }
 
 .ahots-list-item-icon {
-    
     padding-inline: .2em;
 }
 
 .ahots-list-item-icon, .list-icon-wrapper {
     cursor: pointer;
     height: 1.3em;
-    position: absolute;
-    width: 1.3em;
-    
     position: static;
+    width: 1.3em;
 }
 
 .ahots-list-item-icon:hover {
@@ -201,12 +196,7 @@ main, .ahots-list {
     border-radius: .2em;
 }
 
-.list-icon-left {
-    left: .7em;
-}
-
 .list-icon-wrapper {
-    right: .7em;
     width: auto;
 }
 
