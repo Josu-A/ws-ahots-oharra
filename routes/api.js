@@ -53,6 +53,7 @@ const handleList = async (id) => {
                 filesFromUser = userFiles;
             }
         });
+    console.log('Retrieved data from DB: ', filesFromUser);
     return { "files" : filesFromUser };
 };
 
@@ -63,7 +64,7 @@ router.get('/list/:id', async (req, res) => {
 router.post('/upload/:name', (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
-            console.error(err)
+            console.error(err);
             return res.status(400).json({ "error" : err });
         }
     
@@ -78,9 +79,9 @@ router.post('/upload/:name', (req, res) => {
         db.users.insert(newAudioEntry, async (error, audioEntry) => {
             if (error) {
                 console.error(error);
-                return res.status(404).json({ "error" : "Audio berriaren metadatua ez da sartu data basean." });
+                return res.status(404).json({ "error" : "Audio berriaren metadatua ez da sartu datu-basean." });
             }
-            console.log(audioEntry);
+            console.log('New DB entry: ', audioEntry);
             return res.status(201).json(await handleList(req.params.name));
         });
     });
