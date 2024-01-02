@@ -50,7 +50,7 @@ const handleList = async (id) => {
     return { "files" : filesFromUser };
 };
 router.get('/list/:id', (req, res) => {
-    let jason = handleList(req.params.id).then(res => res);
+    let jason = handleList(req.params.id).then(res => res.json());
     console.log(jason)
     return res.status(200).json(jason);
 });
