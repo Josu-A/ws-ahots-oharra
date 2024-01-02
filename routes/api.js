@@ -34,6 +34,7 @@ const upload = multer({
 }).single('recording');
 
 const handleList = async (id) => {
+    console.log(2)
     let filesFromUser = [];
     await db.users.find({ "name" : id },
         { "filename" : 1, "date" : 1, "_id" : 0 },
@@ -46,10 +47,13 @@ const handleList = async (id) => {
                 filesFromUser = userFiles;
             }
         });
+    console.log(3)
     return { "files" : filesFromUser };
 };
 router.get('/list/:id', async (req, res) => {
+    console.log('1')
     let jason = await handleList(req.params.id);
+    console.log('4')
     console.log(jason)
     return res.status(200).json(jason);
 });
