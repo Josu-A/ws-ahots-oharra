@@ -56,7 +56,7 @@ router.get('/list/:id', async (req, res) => {
     return res.status(200).json(await handleList(req.params.id));
 });
 
-router.post('/upload/:name', async (req, res) => {
+router.post('/upload/:name', (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
             console.error(err)
