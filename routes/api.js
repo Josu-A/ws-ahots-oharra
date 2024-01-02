@@ -79,20 +79,6 @@ router.post('/upload/:name', async (req, res) => {
     });
 });
 
-const deleteUploadedAudioFile = fileName => {
-    const projectRoot = path.resolve(__dirname, '..');
-    const filePath = path.join(projectRoot, uploadFolder, fileName);
-    fs.unlink(filePath, error => {
-        if (error) {
-            console.error('Errorea fitxategia ezabatzean: ', error);
-        }
-        else {
-            console.log(`${fileName} fitxategia ezabatu da.`);
-            return res.status(201).json(await handleList(req.params.name));
-        }
-    });
-}
-
 router.post('/delete/:name/:filename', async (req, res) => {
     await db.users.findOne({ "$and" : [{ "name" : req.params.name }, { "filename" : req.params.filename }] }, async (error, audioEntry) => {
         if (error) {
@@ -115,11 +101,10 @@ router.post('/delete/:name/:filename', async (req, res) => {
             fs.unlink(filePath, async error => {
                 if (error) {
                     console.error('Errorea fitxategia ezabatzean: ', error);
+                    return res.status(404).json({ "error" : "Audio fitxategia ez da ezabatu." });
                 }
-                else {
-                    console.log(`${audioEntryFileName} fitxategia ezabatu da.`);
-                    return res.status(200).json(await handleList(req.params.name));
-                }
+                console.log(`${audioEntryFileName} fitxategia ezabatu da.`);
+                return res.status(200).json(await handleList(req.params.name));
             });
         });
     });
