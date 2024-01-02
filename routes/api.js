@@ -41,26 +41,35 @@ const upload = multer({
 }).single('recording');
 
 const handleList = async (id) => {
-    let filesFromUser = [];
-    await db.users.find({ "name" : id },
-        { "filename" : 1, "date" : 1, "_id" : 0 },
-        { "$sort" : { "date" : -1 }, "limit" : 5 },
-        (error, userFiles) => {
-            if (error) {
-                console.error(error);
+    return new Promise((resolve, reject) => {
+        let filesFromUser = [];
+        db.users.find({ "name" : id },
+            { "filename" : 1, "date" : 1, "_id" : 0 },
+            { "$sort" : { "date" : -1 }, "limit" : 5 },
+            (error, userFiles) => {
+                if (error) {
+                    console.error(error);
+                    reject(error);
+                }
+                else {
+                    filesFromUser = userFiles;
+                    console.log('Retrieved data from DB: ', filesFromUser);
+                    resolve({ "files" : filesFromUser });
+                }
             }
-            else {
-                filesFromUser = userFiles;
-            }
-            console.log('Retrieved data from DB: ', filesFromUser);
-            return { "files" : filesFromUser };
-        }
-    );
+        );
+    });
+    
 };
 
-router.get('/list/:id', (req, res) => {
-    const filesObject = handleList(req.params.id)
-    return res.status(200).json(filesObject);
+router.get('/list/:id', async (req, res) => {
+    try {
+        const filesObject = await handleList(req.params.id);
+        return res.status(200).json(filesObject);
+    }
+    catch (error) {
+        return res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 router.post('/upload/:name', (req, res) => {
