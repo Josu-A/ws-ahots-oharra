@@ -35,20 +35,20 @@ const upload = multer({
 
 const handleList = async (id) => {
     let filesFromUser = [];
-    try {
-        filesFromUser = await db.users.find({ "name" : id },
-            { "filename" : 1, "date" : 1, "_id" : 0 },
-            { "$sort" : { "date" : -1 }, "limit" : 5 }
-        ).exec();
-        console.log({"files" : filesFromUser });
-        return { "files" : filesFromUser };
-    }
-    catch(error) {
-        console.error(error);
-        throw error;
-    }
+    await db.users.find({ "name" : id },
+        { "filename" : 1, "date" : 1, "_id" : 0 },
+        { "$sort" : { "date" : -1 }, "limit" : 5 },
+        (error, userFiles) => {
+            if (error) {
+                console.error(error);
+            }
+            else {
+                filesFromUser = userFiles;
+            }
+        });
+    console.log({"files" : filesFromUser });
+    return { "files" : filesFromUser };
 };
-
 router.get('/list/:id', (req, res) => {
     let jason = handleList(req.params.id);
     console.log(jason)
