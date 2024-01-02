@@ -31,7 +31,7 @@ class App {
             this.recordButton = document.querySelector('#record-button > .custom-button');
             this.uploadButton = document.querySelector('#upload-button > .custom-button');
 
-            fetch(`/api/upload/${window.myApp.uuid}`)
+            fetch(`/api/upload/${this.uuid}`)
             .then(response => response.json())
             .then(data => {
                 this.createListOfAudiosSection(data.files);
@@ -226,7 +226,7 @@ class App {
             const formData = new FormData();
             formData.append('recording', this.blob);
     
-            fetch(`/api/upload/${window.myApp.uuid}`, {
+            fetch(`/api/upload/${this.uuid}`, {
                 "method" : "POST",
                 "body" : formData
             })
