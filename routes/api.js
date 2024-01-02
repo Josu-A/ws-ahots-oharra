@@ -49,8 +49,8 @@ const handleList = async (id) => {
     console.log({"files" : filesFromUser });
     return { "files" : filesFromUser };
 };
-router.get('/list/:id', (req, res) => {
-    let jason = handleList(req.params.id);
+router.get('/list/:id', async (req, res) => {
+    let jason = await handleList(req.params.id);
     console.log(jason)
     return res.status(200).json(jason);
 });
