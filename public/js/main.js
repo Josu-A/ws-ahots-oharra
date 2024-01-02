@@ -37,7 +37,7 @@ class App {
                 this.createListOfAudiosSection(data.files);
             })
             .catch(error => {
-                console.error('Errorea fitxategia igotzean:', error);
+                console.error('Errorea fitxategiak eskuratzean:', error);
             });
         }
 
@@ -313,7 +313,7 @@ class App {
         document.querySelector('.ahots-list').appendChild(listItem);
     
         let leftIcon = document.createElement('img');
-        leftIcon.className = 'ahots-list-item-icon list-icon-left';
+        leftIcon.className = 'ahots-list-item-icon';
         leftIcon.alt = 'Copy';
         leftIcon.src = 'images/copy.svg';
         leftIcon.addEventListener('click', () => {
@@ -338,10 +338,22 @@ class App {
         listItem.appendChild(rightIconWrapper);
     
         let rightIcon = document.createElement('img');
-        rightIcon.className = 'ahots-list-item-icon list-icon-right';
+        rightIcon.className = 'ahots-list-item-icon';
         rightIcon.alt = 'Remove';
         rightIcon.src = 'images/trash3.svg';
-        rightIconWrapper.appendChild(rightIcon);
+        rightIcon.addEventListener('click', () => {
+            fetch(`/api/delete/${window.myApp.uuid}/${savedFile.filename}`, {
+                "method" : "POST"
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.createListOfAudiosSection(data.files);
+            })
+            .catch(error => {
+                console.error('Errorea fitxategia ezabatzean:', error);
+            });
+        })
+        listItem.appendChild(rightIcon);
     }
 }
 
