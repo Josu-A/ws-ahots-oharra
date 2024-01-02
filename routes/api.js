@@ -59,7 +59,8 @@ const handleList = async (id) => {
 };
 
 router.get('/list/:id', async (req, res) => {
-    return res.status(200).json(await handleList(req.params.id));
+    const filesObject = await handleList(req.params.id)
+    return res.status(200).json(filesObject);
 });
 
 router.post('/upload/:name', (req, res) => {
