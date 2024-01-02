@@ -29,7 +29,6 @@ const upload = multer({
     "storage" : storage,
     "fileFilter" : function(req, file, cb) {
         const acceptedMimeTypes = ['audio/ogg'];
-        console.log(!file || acceptedMimeTypes.includes(file.mimetype))
         cb(null, !file || acceptedMimeTypes.includes(file.mimetype));
     },
     "limits" : {
@@ -60,6 +59,7 @@ router.get('/list/:id', async (req, res) => {
 router.post('/upload/:name', async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
+            console.error(err)
             return res.status(400).json({ "error" : err });
         }
     
