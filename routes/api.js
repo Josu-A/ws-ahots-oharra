@@ -44,20 +44,20 @@ const handleList = async (id) => {
     return new Promise((resolve, reject) => {
         let filesFromUser = [];
         db.users.find({ "name" : id },
-            { "filename" : 1, "date" : 1, "_id" : 0 },
-            { "$sort" : { "date" : -1 }, "limit" : 5 },
-            (error, userFiles) => {
-                if (error) {
-                    console.error(error);
-                    reject(error);
-                }
-                else {
-                    filesFromUser = userFiles;
-                    console.log('Retrieved data from DB: ', filesFromUser);
-                    resolve({ "files" : filesFromUser });
-                }
+            { "filename" : 1, "date" : 1, "_id" : 0 }
+        )
+        .sort({ "date" : -1})
+        .limit(5, (error, userFiles) => {
+            if (error) {
+                console.error(error);
+                reject(error);
             }
-        );
+            else {
+                filesFromUser = userFiles;
+                console.log('Retrieved data from DB: ', filesFromUser);
+                resolve({ "files" : filesFromUser });
+            }
+        });
     });
     
 };
