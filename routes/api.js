@@ -10,16 +10,18 @@ const uploadFolder = 'recordings/';
 
 const storage = multer.diskStorage({
     "destination" : function(req, file, cb) {
+        console.log("Uploading received file in folder: ", uploadFolder);
         cb(null, uploadFolder);
     },
     "filename" : function(req, file, cb) {
         if (!file) {
-            console.log("something went wrong :(")
+            console.log("something went wrong :(");
             cb(null, '');
         }
         else {
             const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
             const newFileName = `${uniqueSuffix}`;
+            console.log("New name for received file: ", newFileName);
             cb(null, newFileName);
         }
     }
@@ -29,7 +31,9 @@ const upload = multer({
     "storage" : storage,
     "fileFilter" : function(req, file, cb) {
         const acceptedMimeTypes = ['audio/ogg'];
-        cb(null, !file || acceptedMimeTypes.includes(file.mimetype));
+        const isValid = !file || acceptedMimeTypes.includes(file.mimetype);
+        console.log("Received file is valid? ", isValid);
+        cb(null, isValid);
     },
     "limits" : {
         "fileSize" : 2.5 * 1024 * 1024
