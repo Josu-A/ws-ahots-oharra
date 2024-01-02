@@ -34,7 +34,6 @@ const upload = multer({
 }).single('recording');
 
 const handleList = async (id) => {
-    console.log(2)
     let filesFromUser = [];
     await db.users.find({ "name" : id },
         { "filename" : 1, "date" : 1, "_id" : 0 },
@@ -47,18 +46,14 @@ const handleList = async (id) => {
                 filesFromUser = userFiles;
             }
         });
-    console.log(3)
     return { "files" : filesFromUser };
 };
+
 router.get('/list/:id', async (req, res) => {
-    console.log('1')
-    let jason = await handleList(req.params.id);
-    console.log('4')
-    console.log(jason)
-    return res.status(200).json(jason);
+    return res.status(200).json(await handleList(req.params.id));
 });
 
-router.post('/upload/:name', (req, res) => {
+router.post('/upload/:name', async (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
             return res.status(400).json({ "error" : err });
@@ -71,13 +66,13 @@ router.post('/upload/:name', (req, res) => {
             "accessed" : Date.now()
         };
     
-        db.users.insert(newAudioEntry, (error, audioEntry) => {
+        db.users.insert(newAudioEntry, async (error, audioEntry) => {
             if (error) {
                 console.error(error);
                 return res.status(404).json({ "error" : "Audio berriaren metadatua ez da sartu data basean." });
             }
             console.log(audioEntry);
-            return res.status(201).json(handleList(req.params.name));
+            return res.status(201).json(await handleList(req.params.name));
         });
     });
 });
