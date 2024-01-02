@@ -28,8 +28,6 @@ const storage = multer.diskStorage({
 const upload = multer({
     "storage" : storage,
     "fileFilter" : function(req, file, cb) {
-        console.log(file)
-        console.log(`Uploading audio type ${file.mimetype}`);
         const acceptedMimeTypes = ['audio/ogg'];
         cb(null, !file || acceptedMimeTypes.includes(file.mimetype));
     },

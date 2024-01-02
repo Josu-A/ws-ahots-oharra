@@ -94,7 +94,7 @@ class App {
         });
 
         this.mediaRecorder.addEventListener('stop', () => {
-            this.blob = new Blob(audioChunks, { type: 'audio/vorbis' });
+            this.blob = new Blob(audioChunks, { type: 'audio/ogg' });
             this.loadBlob();
             this.setState({ 'currentState' : this.state.recordingEnded });
         });
