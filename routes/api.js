@@ -50,7 +50,9 @@ const handleList = async (id) => {
     return { "files" : filesFromUser };
 };
 router.get('/list/:id', (req, res) => {
-    return res.status(200).json(handleList(req.params.id));
+    let jason = handleList(req.params.id);
+    console.log(jason)
+    return res.status(200).json(jason);
 });
 
 router.post('/upload/:name', (req, res) => {
