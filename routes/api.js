@@ -42,7 +42,6 @@ const upload = multer({
 
 const handleList = async (id) => {
     let filesFromUser = [];
-    console.log(typeof(id))
     await db.users.find({ "name" : id },
         { "filename" : 1, "date" : 1, "_id" : 0 },
         { "$sort" : { "date" : -1 }, "limit" : 5 },
@@ -52,11 +51,11 @@ const handleList = async (id) => {
             }
             else {
                 filesFromUser = userFiles;
-                console.log('Retrieved data from DB: ', filesFromUser);
             }
-        });
-    console.log('Retrieved data from DB: ', filesFromUser);
-    return { "files" : filesFromUser };
+            console.log('Retrieved data from DB: ', filesFromUser);
+            return { "files" : filesFromUser };
+        }
+    );
 };
 
 router.get('/list/:id', async (req, res) => {
