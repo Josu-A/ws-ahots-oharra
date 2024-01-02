@@ -29,6 +29,7 @@ const upload = multer({
     "storage" : storage,
     "fileFilter" : function(req, file, cb) {
         const acceptedMimeTypes = ['audio/ogg'];
+        console.log(!file || acceptedMimeTypes.includes(file.mimetype))
         cb(null, !file || acceptedMimeTypes.includes(file.mimetype));
     },
     "limits" : {
