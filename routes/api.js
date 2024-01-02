@@ -14,6 +14,7 @@ const storage = multer.diskStorage({
     },
     "filename" : function(req, file, cb) {
         if (!file) {
+            console.log("something went wrong :(")
             cb(null, '');
         }
         else {
@@ -27,6 +28,8 @@ const storage = multer.diskStorage({
 const upload = multer({
     "storage" : storage,
     "fileFilter" : function(req, file, cb) {
+        console.log(file)
+        console.log(`Uploading audio type ${file.mimetype}`);
         const acceptedMimeTypes = ['audio/ogg'];
         cb(null, !file || acceptedMimeTypes.includes(file.mimetype));
     },
