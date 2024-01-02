@@ -11,12 +11,18 @@ class App {
         'recording' : 3,
         'recordingEnded' : 4,
         'uploading' : 5,
-        'deleting' : 6
+        'uploadingEnded' : 6,
+        'deleting' : 7
     };
     recordStartTime = 0;
     recordMaxTime = 300;
     
     constructor() {
+        if (!localStorage.getItem('uuid')) {
+            localStorage.setItem('uuid', uuidv4());
+        }
+        this.uuid = localStorage.getItem('uuid');
+        
         this.playMode = new URLSearchParams(window.location.search).get("play");
 
         if (!this.playMode) {
@@ -25,7 +31,14 @@ class App {
             this.recordButton = document.querySelector('#record-button > .custom-button');
             this.uploadButton = document.querySelector('#upload-button > .custom-button');
 
-            this.createListOfAudiosSection();
+            fetch(`/api/upload/${window.myApp.uuid}`)
+            .then(response => response.json())
+            .then(data => {
+                this.createListOfAudiosSection(data.files);
+            })
+            .catch(error => {
+                console.error('Errorea fitxategia igotzean:', error);
+            });
         }
 
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
@@ -34,11 +47,6 @@ class App {
         this.init();
 
         this.setState({ 'currentState' : this.state.idle });
-
-        if (!localStorage.getItem('uuid')) {
-            localStorage.setItem('uuid', uuidv4());
-        }
-        this.uuid = localStorage.getItem('uuid');
     }
 
     setUpButton(wrapperId, innerHtml, clickFunction) {
@@ -104,6 +112,7 @@ class App {
     renderNonPlayModeMode() {
         const recordButtonText = this.recordButton.querySelector('.custom-button-text');
         const playButtonText = this.playButton.querySelector('.custom-button-text');
+        const uploadButtonText = this.uploadButton.querySelector('.custom-button-text');
         let formattedTime;
         switch (this.state.currentState) {
             case this.state.idle:
@@ -124,6 +133,10 @@ class App {
                 playButtonText.textContent = `entzun (${formattedTime.minutes}:${formattedTime.seconds})`;
                 break;
             case this.state.uploading:
+                uploadButtonText.textContent = 'audioa igotzen';
+                break;
+            case this.state.uploadingEnded:
+                uploadButtonText.textContent = 'gorde';
                 break;
             case this.state.deleting:
                 break;
@@ -162,6 +175,7 @@ class App {
 
     record() {
         this.buttonDisable(this.playButton);
+        this.buttonDisable(this.uploadButton);
         this.recordButton.classList.add('active');
         if (this.audioHasBeenRecorded()) {
             this.stopAudio();
@@ -184,6 +198,7 @@ class App {
 
         this.recordButton.setAttribute('onclick', 'myApp.record();');
         this.buttonToggleDisable(this.playButton);
+        this.buttonToggleDisable(this.uploadButton);
     }
 
     playAudio() {
@@ -203,7 +218,33 @@ class App {
     }
 
     upload() {
-        // TODO
+        this.stopAudio();
+        if (this.blob) {
+            this.setState({ 'currentState' : this.state.uploading });
+            this.uploadButton.classList.add('active');
+
+            const formData = new FormData();
+            formData.append('recording', this.blob);
+    
+            fetch(`/api/upload/${window.myApp.uuid}`, {
+                "method" : "POST",
+                "body" : formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                this.createListOfAudiosSection(data.files);
+            })
+            .catch(error => {
+                console.error('Errorea fitxategia igotzean:', error);
+            });
+
+            this.uploadButton.classList.remove('active');
+            this.setState({ 'currentState' : this.state.uploadingEnded });
+            this.setState({ 'currentState' : this.state.idle });
+        }
+        else {
+            console.warn('Ez dago audio blob-ik igotzeko prest.');
+        }
     }
 
     deleteFile() {
@@ -253,17 +294,17 @@ class App {
         }
     }
 
-    createListOfAudiosSection() {
+    createListOfAudiosSection(files) {
         const ahotsListSection = document.createElement('section');
         ahotsListSection.className = 'ahots-list';
+
+        const oldSection = document.querySelector('.ahots-list');
+        if (oldSection) {
+            oldSection.remove();
+        }
         document.querySelector('main').appendChild(ahotsListSection);
 
-        fetch('/api/list')
-        .then(response => response.text())
-        .then(data => JSON.parse(data).files)
-        .then(files => {
-            files.forEach(file => this.createSavedAudioElement(file));       
-        });
+        files.forEach(file => this.createSavedAudioElement(file));
     }
 
     createSavedAudioElement(savedFile) {

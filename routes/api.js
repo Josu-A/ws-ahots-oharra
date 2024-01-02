@@ -65,7 +65,8 @@ router.post('/upload/:name', async (req, res) => {
             "name" : req.params.name,
             "filename" : req.file.filename,
             "date" : Date.now(),
-            "accessed" : Date.now()
+            "accessed" : Date.now(),
+            "size" : req.file.size
         };
     
         db.users.insert(newAudioEntry, async (error, audioEntry) => {
@@ -126,9 +127,10 @@ router.get('/play/:filename', async (req, res) => {
             }
             console.log(`${req.params.filename} fitxategia ondo bidalia`);
         });
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Errorrea fitxategia irakurtzen:', error);
-        return res.status(404).json({ "error": "Audio fitxategia ez da aurkitu." });
+        return res.status(404).json({ "error" : "Audio fitxategia ez da aurkitu." });
     }
 });
 
