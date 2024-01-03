@@ -8,6 +8,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 
+const cleanup = require('./utils/cleanup');
+setInterval(cleanup, 2 * 60 * 1000);
+
 var app = express();
 
 // view engine setup
