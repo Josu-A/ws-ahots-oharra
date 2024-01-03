@@ -2,14 +2,12 @@ const mongojs = require('mongojs');
 const db = mongojs('grabaketak', ['users']);
 const path = require('path');
 const fs = require('fs');
+const { uploadFolder } = require('./config');
 
 const bannerBeginning = "------------ Audio zaharren garbiketa hasieratzen ------------";
 const bannerEnding = "------------   Audio zaharren garbiketa amaitua   ------------"
-
 const executionIntervalDays = 1;
-
 const projectRoot = path.resolve(__dirname, '..');
-const uploadFolder = 'recordings/';
 
 const cleanup = async () => {
     const cleanupTime = new Date();

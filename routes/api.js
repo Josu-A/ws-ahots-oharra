@@ -5,8 +5,7 @@ const mongojs = require('mongojs');
 const db = mongojs('grabaketak', ['users']);
 const path = require('path');
 const fs = require('fs');
-
-const uploadFolder = 'recordings/';
+const { uploadFolder } = require('../utils/config');
 
 const storage = multer.diskStorage({
     "destination" : function(req, file, cb) {
