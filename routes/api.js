@@ -153,7 +153,7 @@ router.get('/play/:filename', async (req, res) => {
                 console.log(`${filename}-ren accessed atributua eguneratu da`);
             }
             else {
-                console.log(`${filename}-ren accessed atributua ez da eguneratu da. Tupla ez da aurkitu.`);
+                console.error(`${filename}-ren accessed atributua ez da eguneratu da. Tupla ez da aurkitu.`);
             }
         }
     );
