@@ -138,18 +138,23 @@ router.post('/delete/:name/:filename', async (req, res) => {
 
 router.get('/play/:filename', async (req, res) => {
     const projectRoot = path.resolve(__dirname, '..');
-    const filePath = path.join(projectRoot, uploadFolder, req.params.filename);
+    const filename = req.params.filename;
+    const filePath = path.join(projectRoot, uploadFolder, filename);
     console.log(`File ${filePath} requested`);
 
-    await db.users.update({ "filename" : req.params.filename },
+    await db.users.update({ "filename" : filename },
         { "$set" : { "accessed" : Date.now() } },
         (err, docs) => {
             if (err) {
                 console.error(err);
                 return res.status(404).json({ "error" : "Audioa ezin izan da eguneratu DB-an." });
             }
-            console.log(docs);
-            console.log(`${req.params.filename}-ren accessed atributua eguneratu da`);
+            if (docs.n) {
+                console.log(`${filename}-ren accessed atributua eguneratu da`);
+            }
+            else {
+                console.log(`${filename}-ren accessed atributua ez da eguneratu da. Tupla ez da aurkitu.`);
+            }
         }
     );
 
@@ -158,7 +163,7 @@ router.get('/play/:filename', async (req, res) => {
             console.error('Errorea fitxategia bidaltzean:', err);
             return res.status(500).json({ "error" : "Internal Server Error" });
         }
-        console.log(`${req.params.filename} fitxategia ondo bidalia`);
+        console.log(`${filename} fitxategia ondo bidalia`);
     });
 });
 
