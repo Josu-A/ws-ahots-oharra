@@ -9,7 +9,7 @@ var usersRouter = require('./routes/users');
 var apiRouter = require('./routes/api');
 
 const cleanup = require('./utils/cleanup');
-setInterval(cleanup, 2 * 60 * 1000);
+setInterval(cleanup, 60 * 60 * 1000);
 
 var app = express();
 
