@@ -18,10 +18,7 @@ class App {
     recordMaxTime = 300;
     
     constructor() {
-        if (!localStorage.getItem('uuid')) {
-            localStorage.setItem('uuid', uuidv4());
-        }
-        this.uuid = localStorage.getItem('uuid');
+        this.setUpUuid();
         
         this.playMode = new URLSearchParams(window.location.search).get("play");
 
@@ -31,14 +28,7 @@ class App {
             this.recordButton = document.querySelector('#record-button > .custom-button');
             this.uploadButton = document.querySelector('#upload-button > .custom-button');
 
-            fetch(`/api/list/${this.uuid}`)
-            .then(response => response.json())
-            .then(data => {
-                this.createListOfAudiosSection(data.files);
-            })
-            .catch(error => {
-                console.error('Errorea fitxategiak eskuratzean:', error);
-            });
+            this.listUserAudios();
         }
 
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
@@ -352,11 +342,29 @@ class App {
         return this.audio.src !== '';
     }
 
+    listUserAudios() {
+        fetch(`/api/list/${this.uuid}`)
+        .then(response => response.json())
+        .then(data => {
+            this.createListOfAudiosSection(data.files);
+        })
+        .catch(error => {
+            console.error('Errorea fitxategiak eskuratzean:', error);
+        });
+    }
+
     setUpButton(wrapperId, innerHtml, clickFunction) {
         const buttonWrapper = document.getElementById(wrapperId);
         buttonWrapper.innerHTML = innerHtml;
         const button = buttonWrapper.getElementsByClassName('custom-button')[0];
         button.setAttribute('onclick', clickFunction);
+    }
+
+    setUpUuid() {
+        if (!localStorage.getItem('uuid')) {
+            localStorage.setItem('uuid', uuidv4());
+        }
+        this.uuid = localStorage.getItem('uuid');
     }
 }
 
