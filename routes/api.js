@@ -143,12 +143,12 @@ router.get('/play/:filename', async (req, res) => {
 
     await db.users.update({ "filename" : req.params.filename },
         { "$set" : { "accessed" : Date.now() } },
-        (err, user) => {
+        err => {
             if (err) {
                 console.error(err);
                 return res.status(404).json({ "error" : "Audioa ezin izan da eguneratu DB-an." });
             }
-            console.log(`${user}-ren accessed atributua eguneratu da`);
+            console.log(`${req.params.filename}-ren accessed atributua eguneratu da`);
         }
     );
 
