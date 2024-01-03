@@ -48,13 +48,6 @@ class App {
 
         this.setState({ 'currentState' : this.state.idle });
     }
-
-    setUpButton(wrapperId, innerHtml, clickFunction) {
-        const buttonWrapper = document.getElementById(wrapperId);
-        buttonWrapper.innerHTML = innerHtml;
-        const button = buttonWrapper.getElementsByClassName('custom-button')[0];
-        button.setAttribute('onclick', clickFunction);
-    }
     
     async init() {
         if (!this.playMode) {
@@ -177,7 +170,7 @@ class App {
         this.buttonDisable(this.playButton);
         this.buttonDisable(this.uploadButton);
         this.recordButton.classList.add('active');
-        if (this.audioHasBeenRecorded()) {
+        if (this.isAudioRecorded()) {
             this.stopAudio();
         }
         this.mediaRecorder.start();
@@ -247,8 +240,17 @@ class App {
         }
     }
 
-    deleteFile() {
-        // TODO
+    deleteFile(filename) {
+        fetch(`/api/delete/${this.uuid}/${filename}`, {
+            "method" : "POST"
+        })
+        .then(response => response.json())
+        .then(data => {
+            this.createListOfAudiosSection(data.files);
+        })
+        .catch(error => {
+            console.error('Errorea fitxategia ezabatzean:', error);
+        });
     }
 
     setState(state) {
@@ -256,33 +258,12 @@ class App {
         this.render();
     }
 
-    getRecordedElapsedTime() {
-        return Math.floor(((new Date).getTime() - this.recordStartTime) / 1000);
-    }
-
-    getRecordedRemainingTime() {
-        return Math.max(0, this.recordMaxTime - this.getRecordedElapsedTime());
-    }
-
-    formatFromSeconds(seconds) {
-        const s = Math.floor(seconds % 60).toString().padStart(2, '0');
-        const m = Math.floor(seconds / 60);
-        return {
-            'minutes' : m,
-            'seconds' : s
-        }
-    }
-
-    audioHasBeenRecorded() {
-        return this.audio.src !== '';
+    buttonDisable(button) {
+        button.setAttribute('disabled', true);
     }
 
     buttonEnable(button) {
         button.removeAttribute('disabled');
-    }
-
-    buttonDisable(button) {
-        button.setAttribute('disabled', true);
     }
 
     buttonToggleDisable(button) {
@@ -308,11 +289,17 @@ class App {
     }
 
     createSavedAudioElement(savedFile) {
-        let listItem = document.createElement('div');
+        const listItem = document.createElement('div');
         listItem.className = 'ahots-list-item';
         document.querySelector('.ahots-list').appendChild(listItem);
     
-        let leftIcon = document.createElement('img');
+        this.createSavedAudioLeftIcon(listItem, savedFile);
+        this.createSavedAudioText(listItem, savedFile);
+        this.createSavedAudioRightIcon(listItem, savedFile);
+    }
+
+    createSavedAudioLeftIcon(listItem, savedFile) {
+        const leftIcon = document.createElement('img');
         leftIcon.className = 'ahots-list-item-icon';
         leftIcon.alt = 'Copy';
         leftIcon.src = 'images/copy.svg';
@@ -326,34 +313,50 @@ class App {
             });
         });
         listItem.appendChild(leftIcon);
-    
-        let itemText = document.createElement('span');
-        itemText.className = 'ahots-list-item-text';
-        itemText.innerText = moment(savedFile.date).fromNow().toLocaleLowerCase();
-        listItem.appendChild(itemText);
-    
-        let rightIconWrapper = document.createElement('a');
-        rightIconWrapper.className = 'list-icon-wrapper';
-        rightIconWrapper.href = `/api/delete/${window.myApp.uuid}/${savedFile.filename}`
-        listItem.appendChild(rightIconWrapper);
-    
-        let rightIcon = document.createElement('img');
+    }
+
+    createSavedAudioRightIcon(listItem, savedFile) {
+        const rightIcon = document.createElement('img');
         rightIcon.className = 'ahots-list-item-icon';
         rightIcon.alt = 'Remove';
         rightIcon.src = 'images/trash3.svg';
-        rightIcon.addEventListener('click', () => {
-            fetch(`/api/delete/${window.myApp.uuid}/${savedFile.filename}`, {
-                "method" : "POST"
-            })
-            .then(response => response.json())
-            .then(data => {
-                this.createListOfAudiosSection(data.files);
-            })
-            .catch(error => {
-                console.error('Errorea fitxategia ezabatzean:', error);
-            });
-        })
+        rightIcon.addEventListener('click', () => this.deleteFile(savedFile.filename));
         listItem.appendChild(rightIcon);
+    }
+
+    createSavedAudioText(listItem, savedFile) {
+        const itemText = document.createElement('span');
+        itemText.className = 'ahots-list-item-text';
+        itemText.innerText = moment(savedFile.date).fromNow().toLocaleLowerCase();
+        listItem.appendChild(itemText);
+    }
+
+    formatFromSeconds(seconds) {
+        const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+        const m = Math.floor(seconds / 60);
+        return {
+            'minutes' : m,
+            'seconds' : s
+        }
+    }
+
+    getRecordedElapsedTime() {
+        return Math.floor(((new Date).getTime() - this.recordStartTime) / 1000);
+    }
+
+    getRecordedRemainingTime() {
+        return Math.max(0, this.recordMaxTime - this.getRecordedElapsedTime());
+    }
+
+    isAudioRecorded() {
+        return this.audio.src !== '';
+    }
+
+    setUpButton(wrapperId, innerHtml, clickFunction) {
+        const buttonWrapper = document.getElementById(wrapperId);
+        buttonWrapper.innerHTML = innerHtml;
+        const button = buttonWrapper.getElementsByClassName('custom-button')[0];
+        button.setAttribute('onclick', clickFunction);
     }
 }
 
