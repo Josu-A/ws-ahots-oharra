@@ -306,7 +306,7 @@ class App {
         leftIcon.alt = 'Copy';
         leftIcon.src = 'images/copy.svg';
         leftIcon.addEventListener('click', () => {
-            navigator.clipboard.writeText(`${window.location.origin}/play/${savedFile.filename}`);
+            navigator.clipboard.writeText(`${window.location.origin}/?play=${savedFile.filename}`);
             Snackbar.show({
                 text : 'Esteka arbelean kopiatu da!',
                 pos : 'bottom-center',
