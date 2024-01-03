@@ -57,6 +57,7 @@ class App {
         this.audio.addEventListener('ended', () => this.stopAudio());
 
         if (this.playMode) {
+            console.log(`Fetching from /api/play/${this.playMode}`);
             fetch(`/api/play/${this.playMode}`)
             .then(response => response.blob())
             .then(blob => {
@@ -152,16 +153,9 @@ class App {
                 formattedTime = this.formatFromSeconds(this.audio.currentTime);
                 playButtonText.textContent = `gelditu (${formattedTime.minutes}:${formattedTime.seconds})`;
                 break;
-            case this.state.recording:
-                break;
-            case this.state.recordingEnded:
             case this.state.playingEnded:
                 formattedTime = this.formatFromSeconds(this.audio.duration);
                 playButtonText.textContent = `entzun (${formattedTime.minutes}:${formattedTime.seconds})`;
-                break;
-            case this.state.uploading:
-                break;
-            case this.state.deleting:
                 break;
             default:
                 break;
