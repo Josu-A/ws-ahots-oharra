@@ -119,7 +119,7 @@ router.post('/delete/:name/:filename', async (req, res) => {
             await db.users.remove({ "_id" : audioEntryId }, err => {
                 if (err) {
                     console.error(err);
-                    return res.status(404).json({ "error" : "Audioa ez da ezabatu." });
+                    return res.status(404).json({ "error" : "Audioa ez da ezabatu DB-tik." });
                 }
                 const projectRoot = path.resolve(__dirname, '..');
                 const filePath = path.join(projectRoot, uploadFolder, audioEntryFileName);
@@ -129,7 +129,7 @@ router.post('/delete/:name/:filename', async (req, res) => {
                         return res.status(404).json({ "error" : "Audio fitxategia ez da ezabatu." });
                     }
                     console.log(`${audioEntryFileName} fitxategia ezabatu da.`);
-                    return res.status(200).json(await handleList(req.params.name));
+                    res.status(200).json(await handleList(req.params.name));
                 });
             });
         }
@@ -140,22 +140,25 @@ router.get('/play/:filename', async (req, res) => {
     const projectRoot = path.resolve(__dirname, '..');
     const filePath = path.join(projectRoot, uploadFolder, req.params.filename);
     console.log(`File ${filePath} requested`);
-    try {
-        await db.users.update({ "filename" : req.params.filename },
-            { "$set" : { "accessed" : Date.now() } }
-        );
-        res.sendFile(filePath, (err) => {
+
+    await db.users.update({ "filename" : req.params.filename },
+        { "$set" : { "accessed" : Date.now() } },
+        (err, user) => {
             if (err) {
-                console.error('Errorea fitxategia bidaltzean:', err);
-                return res.status(500).json({ "error" : "Internal Server Error" });
+                console.error(err);
+                return res.status(404).json({ "error" : "Audioa ezin izan da eguneratu DB-an." });
             }
-            console.log(`${req.params.filename} fitxategia ondo bidalia`);
-        });
-    }
-    catch (error) {
-        console.error('Errorrea fitxategia irakurtzen:', error);
-        return res.status(404).json({ "error" : "Audio fitxategia ez da aurkitu." });
-    }
+            console.log(`${user}-ren accessed atributua eguneratu da`);
+        }
+    );
+
+    res.sendFile(filePath, (err) => {
+        if (err) {
+            console.error('Errorea fitxategia bidaltzean:', err);
+            return res.status(500).json({ "error" : "Internal Server Error" });
+        }
+        console.log(`${req.params.filename} fitxategia ondo bidalia`);
+    });
 });
 
 module.exports = router;
