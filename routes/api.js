@@ -140,10 +140,7 @@ router.get('/play/:filename', async (req, res) => {
     const projectRoot = path.resolve(__dirname, '..');
     const filePath = path.join(projectRoot, uploadFolder, req.params.filename);
     console.log(`File ${filePath} requested`);
-
     try {
-        fs.readFile(filePath);
-        console.log('aaaad1')
         await db.users.update({ "filename" : req.params.filename },
             { "$set" : { "accessed" : Date.now() } }
         );
