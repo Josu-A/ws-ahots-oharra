@@ -55,6 +55,18 @@ class App {
         this.audio.addEventListener('durationchange', () => console.log('durationchange'));
         this.audio.addEventListener('timeupdate', () => this.render());
         this.audio.addEventListener('ended', () => this.stopAudio());
+
+        if (this.playMode) {
+            fetch(`/api/play/${this.playMode}`)
+            .then(response => response.blob())
+            .then(blob => {
+                this.blob = blob;
+                this.loadBlob();
+            })
+            .catch(error => {
+                console.error('Ezin izan da audio fitxategia eskuratu:', error);
+            });
+        }
     }
 
     loadBlob() {
