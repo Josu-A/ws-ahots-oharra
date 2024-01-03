@@ -33,7 +33,7 @@ class App {
 
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
         this.playButton = document.querySelector('#play-button > .custom-button');
-        
+
         this.init();
 
         this.setState({ 'currentState' : this.state.idle });
@@ -63,6 +63,7 @@ class App {
             .then(blob => {
                 this.blob = blob;
                 this.loadBlob();
+                this.buttonToggleDisable(this.playButton);
             })
             .catch(error => {
                 console.error('Ezin izan da audio fitxategia eskuratu:', error);
