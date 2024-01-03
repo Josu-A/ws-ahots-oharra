@@ -59,7 +59,12 @@ class App {
         if (this.playMode) {
             console.log(`Fetching from /api/play/${this.playMode}`);
             fetch(`/api/play/${this.playMode}`)
-            .then(response => response.blob())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP errorea. Egoera honekin: ${response.status}`);
+                }
+                return response.blob();
+            })
             .then(blob => {
                 this.blob = blob;
                 this.loadBlob();
