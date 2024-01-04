@@ -6,7 +6,7 @@ const { uploadFolder } = require('./config');
 
 const bannerBeginning = "------------ Audio zaharren garbiketa hasieratzen ------------";
 const bannerEnding = "------------   Audio zaharren garbiketa amaitua   ------------"
-const executionIntervalDays = 1;
+const executionIntervalDays = 5;
 const projectRoot = path.resolve(__dirname, '..');
 
 const cleanup = async () => {
