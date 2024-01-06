@@ -1,0 +1,98 @@
+#container {
+    min-height: 100vh;
+}
+
+h1 a {
+    color: initial;
+    text-decoration: none;
+}
+
+.standard-register {
+    margin-top: .2em;
+}
+
+#register-form, #register-oauth-container {
+    font-size: .6em;
+    margin-top: .25em;
+}
+
+.register-container, #register-oauth-container {
+    background: hsl(0, 0%, 50%);
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.register-container {
+    box-sizing: border-box;
+    width: 400px;
+}
+
+@media (max-width: 440px) {
+    .register-container, .standard-register, #register-form {
+        width: 100%;
+    }
+}
+
+#register-oauth-container {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+#register-oauth-container img {
+    max-width: 100px;
+}
+
+.register-container input {
+    background-color: hsl(0, 0%, 95%);
+    border: none;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: inline-block;
+    padding: .5em;
+    width: 100%;
+}
+
+input {
+    font-size: inherit;
+}
+
+form #username, form #password, form #confirmPassword {
+    margin-bottom: .5em;
+}
+
+.register-buttons {
+    align-items: center;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: .5em;
+}
+
+.register-buttons button {
+    background-color: deeppink;
+    color: hsl(0, 0%, 95%);
+    border-radius: 5px;
+    border-width: 0;
+    padding-block: .5em;
+    padding-inline: 1em;
+}
+
+.register-buttons button:hover, .register-buttons button:active {
+    background-color: hsl(328, 100%, 60%);
+}
+
+.register-buttons .link:hover {
+    font-weight: bold;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-small {
+    font-size: .6em;
+}
+
+.lh-0 {
+    line-height: 0;
+}

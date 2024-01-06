@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Josu Aguinaga">
+    <meta name="description" content="Ahots Oharrak WS ikasgairako">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <title>Register - Ahots oharrak</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/register.css">
+    <script src="/js/registerValidation.js" defer></script>
+    <script src="/utils/moment/moment.js"></script>
+    <script src="/utils/moment/eu.js"></script>
+    <link rel="stylesheet" href="/utils/snackbar/snackbar.min.css">
+    <script src="/utils/snackbar/snackbar.min.js"></script>
+</head>
+<body>
+    <div id="container">
+        <header>
+            <h1><a href="/">Ahots <span style="color: deeppink">oharrak</span></a></h1>
+        </header>
+        <main>
+            <section class="oauth-register">
+                <div class="text-center text-small">Izena eman zerbitzari batekin</div>
+                <div id="register-oauth-container">
+
+                </div>
+            </section>
+            <section class="standard-register">
+                <div class="text-center text-small">edo</div>
+                <form id="register-form" method="post">
+                    <div class="register-container">
+                        <div class="lh-0">
+                            <input type="text" name="username" id="username" placeholder="Erabiltzaile izena*" required>
+                        </div>
+                        <div class="lh-0">
+                            <input type="password" name="password" id="password" placeholder="Pasahitza*" required>
+                        </div>
+                        <div class="lh-0">
+                            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Pasahitza errepikatu*" required>
+                        </div>
+                        <div class="lh-0">
+                            <input type="email" name="email" id="email" placeholder="E-posta*" required>
+                        </div>
+                    </div>
+                    <div class="register-buttons">
+                        <div>
+                            <a class="link" href="login">Baduzu kontua?</a>
+                        </div>
+                        <button name="submit" type="submit">Izena eman</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+        <footer>
+            <p>Web Sistemak (2023-2024)</p>
+        </footer>
+    </div>
+</body>
+</html>

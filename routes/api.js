@@ -60,6 +60,32 @@ const handleList = async (id) => {
     });
 };
 
+const isLoggedIn = (req, res, next) => {
+    if (req.session.userid) {
+        next();
+    }
+    else {
+        res.status(403).json({
+            "status" : "error",
+            "message" : "Forbidden. User not logged in."
+        });
+    }
+}
+
+const validateUserId = (req, res, next) => {
+    isLoggedIn(req, res, () => {
+        if (req.params.name === req.session.userid) {
+            next();
+        }
+        else {
+            res.status(403).json({
+                "status" : "error",
+                "message" : "Forbidden. Invalid user ID."
+            });
+        }
+    });
+};
+
 router.get('/list/:id', async (req, res) => {
     try {
         const filesObject = await handleList(req.params.id);
@@ -70,7 +96,7 @@ router.get('/list/:id', async (req, res) => {
     }
 });
 
-router.post('/upload/:name', (req, res) => {
+router.post('/upload/:name', validateUserId, (req, res) => {
     upload(req, res, async (err) => {
         if (err) {
             console.error(err);
@@ -102,7 +128,7 @@ router.post('/upload/:name', (req, res) => {
     });
 });
 
-router.post('/delete/:name/:filename', async (req, res) => {
+router.post('/delete/:name/:filename', validateUserId, async (req, res) => {
     await db.users.findOne({ "$and" : [{ "name" : req.params.name }, { "filename" : req.params.filename }] },
         async (error, audioEntry) => {
             if (error) {

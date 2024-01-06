@@ -15,6 +15,17 @@
     <script type="module" src="/js/main.js" defer></script>
 </head>
 <body>
+    <% if (!logged) { %>
+    <nav class="banner-login">
+        <a class="link login" href="/login">Sartu</a>
+        <a class="link register" href="/register">Izena eman</a>
+    </nav>
+    <% } else { %>
+    <nav class="banner-login logged">
+        <span>Saioa hasita <span class="username"><%= logged %></span> gisa</span>
+        <a class="link logout" href="/logout">Irten</a>
+    </nav>
+    <% } %>
     <div id="container">
         <header>
             <h1>Ahots <span style="color: deeppink">oharrak</span></h1>

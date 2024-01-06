@@ -44,7 +44,7 @@ body {
 
 #container {
     background: hsl(0, 0%, 88%);
-    min-height: 100vh;
+    min-height: 92.5vh;
     padding-inline: 1em;
 }
 
@@ -52,10 +52,69 @@ header {
     border-bottom: hsl(0, 0%, 60%) 1px groove;
     border-image: linear-gradient(45deg, #661897, #4c345b) 30;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     padding-bottom: .5em;
-    padding-top: 2em;
+    /*padding-top: 2em;*/
     text-align: center;
+}
+
+.banner-login {
+    align-items: center;
+    background-color: hsl(0, 0%, 84%);
+    display: flex;
+    font-size: 1.2rem;
+    font-weight: bold;
+    gap: 1rem;
+    justify-content: flex-end;
+    left: 0;
+    padding-block: .5rem;
+    padding-inline: 1em;
+    position: sticky;
+    top: 0;
+    z-index: 99;
+}
+
+.link {
+    color: inherit;
+    cursor: pointer;
+    display: block;
+    padding: .5rem 1rem;
+    position: relative;
+    text-decoration: none;
+}
+
+.login {
+    border-color: hsl(341, 100%, 51%);
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.login:hover {
+    background-color: hsl(341, 33%, 81%);
+}
+
+.register {
+    background-color: hsl(143, 79%, 51%);
+    border-radius: 10px;
+    color: hsl(0, 0%, 95%);
+}
+
+.register:hover {
+    background-color: hsl(143, 79%, 61%);
+}
+
+.logout {
+    text-decoration-line: underline;
+}
+
+.logout:hover {
+    text-decoration-style: double;
+}
+
+.username {
+    color: hsl(341, 100%, 61%);
 }
 
 h1 {
@@ -113,7 +172,7 @@ main, .ahots-list {
     border-radius: 0.5em;
     border: 1px solid hsl(341, 100%, 51%);
     box-shadow: 0 4px 8px hsla(0, 0%, 0%, 0.4);
-    color: hsl(0, 0%, 96%);
+    color: hsl(0, 0%, 95%);
     display: flex;
     min-height: 50px;
     justify-content: center;

@@ -1,7 +1,6 @@
 import { recordFn } from '/js/recordButton.js';
 import { playFn } from '/js/playButton.js';
 import { uploadFn } from '/js/uploadButton.js';
-import uuidv4 from '/utils/uuid/v4.js';
 
 class App {
     state = {
@@ -18,8 +17,6 @@ class App {
     recordMaxTime = 300;
     
     constructor() {
-        this.setUpUuid();
-        
         this.playMode = new URLSearchParams(window.location.search).get("play");
 
         if (!this.playMode) {
@@ -28,7 +25,15 @@ class App {
             this.recordButton = document.querySelector('#record-button > .custom-button');
             this.uploadButton = document.querySelector('#upload-button > .custom-button');
 
-            this.listUserAudios();
+            this.isUserLogged().then(uid => {
+                this.uid = uid;
+                if (this.uid) {
+                    this.listUserAudios();
+                }
+                else {
+                    this.buttonDisable(this.recordButton);
+                }
+            });
         }
 
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
@@ -51,7 +56,18 @@ class App {
 
     initAudio() {
         this.audio = document.createElement('audio');
-        this.audio.addEventListener('loadedmetadata', () => console.log('loadedmetadata'));
+
+        const getDuration = event => {
+            event.target.currentTime = 0
+            event.target.removeEventListener('timeupdate', getDuration)
+            console.log(event.target.duration)
+        }
+        this.audio.addEventListener('loadedmetadata', () => {
+            if (this.audio.duration === Infinity || isNaN(Number(this.audio.duration))) {
+                this.audio.currentTime = 1e101;
+                this.audio.addEventListener('timeupdate', getDuration);
+            }
+        });
         this.audio.addEventListener('durationchange', () => console.log('durationchange'));
         this.audio.addEventListener('timeupdate', () => this.render());
         this.audio.addEventListener('ended', () => this.stopAudio());
@@ -221,7 +237,7 @@ class App {
             const formData = new FormData();
             formData.append('recording', this.blob);
     
-            fetch(`/api/upload/${this.uuid}`, {
+            fetch(`/api/upload/${this.uid}`, {
                 "method" : "POST",
                 "body" : formData
             })
@@ -243,7 +259,7 @@ class App {
     }
 
     deleteFile(filename) {
-        fetch(`/api/delete/${this.uuid}/${filename}`, {
+        fetch(`/api/delete/${this.uid}/${filename}`, {
             "method" : "POST"
         })
         .then(response => response.json())
@@ -354,8 +370,24 @@ class App {
         return this.audio.src !== '';
     }
 
+    async isUserLogged() {
+        let userId = null;
+        await fetch('/users/check-login-status')
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.message);
+            if (data.status == 'success') {
+                userId = data.userid;
+            }
+        })
+        .catch(error => {
+            console.error('Errorea erabiltzailearen kautoketa egiaztatzen:', error);
+        });
+        return userId;
+    }
+
     listUserAudios() {
-        fetch(`/api/list/${this.uuid}`)
+        fetch(`/api/list/${this.uid}`)
         .then(response => response.json())
         .then(data => {
             this.createListOfAudiosSection(data.files);
@@ -370,13 +402,6 @@ class App {
         buttonWrapper.innerHTML = innerHtml;
         const button = buttonWrapper.getElementsByClassName('custom-button')[0];
         button.setAttribute('onclick', clickFunction);
-    }
-
-    setUpUuid() {
-        if (!localStorage.getItem('uuid')) {
-            localStorage.setItem('uuid', uuidv4());
-        }
-        this.uuid = localStorage.getItem('uuid');
     }
 }
 
