@@ -52,7 +52,7 @@ passport.use(new GitHubStrategy({
             }
             else {
                 const newUser = {
-                    "username" : profile.displayName,
+                    "username" : profile.username,
                     "email" : profile.emails[0].value,
                     "githubId" : profile.id
                 };
