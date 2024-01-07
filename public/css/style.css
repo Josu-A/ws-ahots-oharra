@@ -59,6 +59,11 @@ header {
     text-align: center;
 }
 
+h1 a {
+    color: initial;
+    text-decoration: none;
+}
+
 .banner-login {
     align-items: center;
     background-color: hsl(0, 0%, 84%);
