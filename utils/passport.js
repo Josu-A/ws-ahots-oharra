@@ -5,10 +5,12 @@ require('dotenv').config();
 const mongojs = require('mongojs');
 const db = mongojs('grabaketak', ['userdata']);
 
+const { myUrl } = require('./config');
+
 passport.use(new GoogleStrategy({
         "clientID" : process.env.GOOGLE_CLIENT_ID,
         "clientSecret" : process.env.GOOGLE_CLIENT_SECRET,
-        "callbackURL" : "https://ws.aguijos.eus/auth/google/callback"
+        "callbackURL" : `${myUrl}/auth/google/callback`
     },
     (accessToken, refreshToken, profile, done) => {
         db.userdata.findOne({ "googleId" : profile.id }, (error, user) => {
@@ -39,7 +41,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
         "clientID" : process.env.GITHUB_CLIENT_ID,
         "clientSecret" : process.env.GITHUB_CLIENT_SECRET,
-        "callbackURL" : "https://ws.aguijos.eus/auth/github/callback",
+        "callbackURL" : `${myUrl}/auth/github/callback`,
         "scope" : "user:email"
     },
     (accessToken, refreshToken, profile, done) => {

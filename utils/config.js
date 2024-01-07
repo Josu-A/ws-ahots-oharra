@@ -1,3 +1,4 @@
-const uploadFolder = 'recordings/';
-
-module.exports = { uploadFolder };
+module.exports = {
+    uploadFolder : "recordings/",
+    myUrl : "https://ws.aguijos.eus"
+};

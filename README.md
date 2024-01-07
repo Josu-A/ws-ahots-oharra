@@ -71,6 +71,8 @@ Beharrezko sekretuak gorde `.env` fitxategian:
 |GITHUB\_CLIENT\_ID|GitHub-eko *OAuth* aplikazioaren *Client ID*-a|
 |GITHUB\_CLIENT\_SECRET|GitHub-eko *OAuth* aplikazioaren *Client Secrets*-a|
 
+`./utils/config.js` fitxategiko `myUrl` aldagaia aldatu zure webguneko domeinura.
+
 Sare aplikazioa hasieratu defektuzko 3100 portuan:
 
 ```bash
