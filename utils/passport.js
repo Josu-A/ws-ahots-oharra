@@ -1,6 +1,6 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20');
-const GitHubStrategy = require('passport-github2');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const GitHubStrategy = require('passport-github2').Strategy;
 require('dotenv').config();
 const mongojs = require('mongojs');
 const db = mongojs('grabaketak', ['userdata']);
