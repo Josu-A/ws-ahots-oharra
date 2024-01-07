@@ -39,4 +39,8 @@ router.get('/logout', (req, res, next) => {
     }
 });
 
+router.get('/privacy', (req, res) => {
+    res.status(200).render('privacy');
+});
+
 module.exports = router;

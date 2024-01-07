@@ -134,11 +134,22 @@ main {
 }
 
 footer {
+    align-items: center;
     display: flex;
+    font-size: .6em;
+    gap: 1em;
     justify-content: center;
     margin-top: 1em;
     padding-bottom: 1em;
     text-align: center;
+}
+
+footer img {
+    width: 30px;
+}
+
+footer > * {
+    margin-block: 1em;
 }
 
 footer, .ahots-list {
