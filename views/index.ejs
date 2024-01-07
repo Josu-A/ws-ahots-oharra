@@ -27,9 +27,7 @@
     </nav>
     <% } %>
     <div id="container">
-        <header>
-            <h1><a href="/">Ahots <span style="color: deeppink">oharrak</span></a></h1>
-        </header>
+        <% include templates/header.ejs %>
         <main>
             <section class="ahots-buttons">
                 <div id="record-button"></div>
@@ -37,7 +35,7 @@
                 <div id="upload-button"></div>
             </section>
         </main>
-        <% include footer.ejs %>
+        <% include templates/footer.ejs %>
     </div>
 </body>
 </html>

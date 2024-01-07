@@ -17,9 +17,7 @@
 </head>
 <body>
     <div id="container">
-        <header>
-            <h1><a href="/">Ahots <span style="color: deeppink">oharrak</span></a></h1>
-        </header>
+        <% include templates/header.ejs %>
         <main>
             <section class="oauth-register">
                 <div class="text-center text-small">Izena eman zerbitzari batekin</div>
@@ -62,7 +60,7 @@
                 </form>
             </section>
         </main>
-        <% include footer.ejs %>
+        <% include templates/footer.ejs %>
     </div>
 </body>
 </html>
