@@ -76,6 +76,8 @@ cross-env PORT=x npm start
 
 </details>
 
+<details><summary>edo...</summary>
+
 <details><summary>Linux / MacOS</summary>
 
 ```bash
@@ -100,6 +102,8 @@ $env:PORT='x'; npm start
 
 </details>
 
+</details>
+
 ### Debugging moduan hasieratu
 
 <details><summary>cross-env erabiliz</summary>
@@ -109,6 +113,8 @@ cross-env DEBUG=ahots-oharra:* npm start
 ```
 
 </details>
+
+<details><summary>edo...</summary>
 
 <details><summary>Linux / MacOS</summary>
 
@@ -131,6 +137,8 @@ set DEBUG=ahots-oharra:* & npm start
 ```ps
 $env:DEBUG='ahots-oharra:*'; npm start
 ```
+
+</details>
 
 </details>
 
