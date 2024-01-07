@@ -9,12 +9,12 @@ const bannerEnding = "------------   Audio zaharren garbiketa amaitua   --------
 const executionIntervalDays = 5;
 const projectRoot = path.resolve(__dirname, '..');
 
-const cleanup = async () => {
+const cleanup = () => {
     const cleanupTime = new Date();
     cleanupTime.setDate(cleanupTime.getDate() - executionIntervalDays);
     const cleanupTimeMs = cleanupTime.getTime();
 
-    await db.users.find({ "date" : { "$lt" : cleanupTimeMs }},
+    db.users.find({ "date" : { "$lt" : cleanupTimeMs }},
         (error, userFiles) => {
             console.log(bannerBeginning);
             if (error) {
@@ -28,9 +28,9 @@ const cleanup = async () => {
 };
 
 const deleteOldUserEntries = userEntries => {
-    userEntries.forEach(async element => {
+    userEntries.forEach(element => {
         const filename = element.filename;
-        await db.users.remove({ "filename" : filename },
+        db.users.remove({ "filename" : filename },
             error => {
                 if (error) {
                     console.error(`Errorea datu-basetik ${filename} duen tupla ezabatzean. Error:`, error);
