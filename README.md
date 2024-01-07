@@ -1,4 +1,17 @@
-# WS - Praktika: Ahots Oharrak (Frontend)
+# WS - Praktika: Ahots Oharrak
+
+## Aurkibidea
+
+- [Sarrera](#sarrera)
+- [Build](#build)
+    - [Betebeharrak](#betebeharrak)
+    - [Nola eraiki](#nola-eraiki)
+        - [MongoDB](#mongodb)
+        - [Node](#node)
+    - [Portu zehatzean hasieratu](#portu-zehatzean-hasieratu)
+    - [Debugging moduan hasieratu](#debugging-moduan-hasieratu)
+- [Egileak](#egileak)
+
 
 ## Sarrera
 
