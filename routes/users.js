@@ -61,8 +61,8 @@ router.post('/login', (req, res) => {
                 "message" : "Failed login attempt"
             });
         }
-        req.session.userid = authenticatedUser.username;
-        console.log(req.session);
+        req.session.userid = authenticatedUser._id.toString();
+        req.session.username = authenticatedUser.username;
         res.status(200).json({
             "status" : "success",
             "message" : "Logged in successfully."
@@ -135,7 +135,8 @@ router.post('/register', (req, res, next) => {
                     "message" : "Something went wrong."
                 });
             }
-            req.session.userid = authenticatedUser.username;
+            req.session.userid = authenticatedUser._id.toString();
+            req.session.username = authenticatedUser.username;
             console.log(req.session);
             res.status(200).json({
                 "status" : "success",

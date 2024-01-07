@@ -4,8 +4,11 @@ const path = require('path');
 const logger = require('morgan');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+
 require('dotenv').config();
+
 const passport = require('./utils/passport');
+const cleanup = require('./utils/cleanup');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
@@ -14,13 +17,10 @@ const authRouter = require('./routes/auth');
 
 const app = express();
 
-// old audio cleanup
-
-const cleanup = require('./utils/cleanup');
+// remove old audios
 setInterval(cleanup, 60 * 60 * 1000);
 
 // session storage setup
-
 const store = new MongoDBStore({
         "uri" : "mongodb://localhost:27017/grabaketak",
         "collection": "storedSessions"
@@ -36,10 +36,10 @@ store.on('error', error => {
 });
 
 // view engine setup
-
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// middlewares setup
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ "extended" : false }));

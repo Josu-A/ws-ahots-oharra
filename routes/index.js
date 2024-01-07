@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 router.get('/', function(req, res) {
     res.status(200).render('index', {
-        "logged" : req.session.userid
+        "logged" : req.session.username
     });
 });
 
@@ -21,11 +21,22 @@ router.get('/register', (req, res) => {
     res.status(200).render('register');
 });
 
-router.get('/logout', (req, res) => {
-    if (req.session.userid) {
-        req.session.destroy();
+router.get('/logout', (req, res, next) => {
+    if (req.session.passport) {
+        req.logout(error => {
+            if (error) {
+                return next(error);
+            }
+            req.session.destroy();
+            res.status(302).redirect('/');
+        });
     }
-    res.status(302).redirect('/');
+    else {
+        if (req.session.userid) {
+            req.session.destroy();
+        }
+        res.status(302).redirect('/');
+    }
 });
 
 module.exports = router;

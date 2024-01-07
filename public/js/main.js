@@ -21,19 +21,9 @@ class App {
 
         if (!this.playMode) {
             this.setUpButton('record-button', recordFn(), 'myApp.record();');
-            this.setUpButton('upload-button', uploadFn(), 'myApp.upload()');
+            this.setUpButton('upload-button', uploadFn(), 'myApp.upload();');
             this.recordButton = document.querySelector('#record-button > .custom-button');
             this.uploadButton = document.querySelector('#upload-button > .custom-button');
-
-            this.isUserLogged().then(uid => {
-                this.uid = uid;
-                if (this.uid) {
-                    this.listUserAudios();
-                }
-                else {
-                    this.buttonDisable(this.recordButton);
-                }
-            });
         }
 
         this.setUpButton('play-button', playFn(), 'myApp.playAudio();');
@@ -44,12 +34,21 @@ class App {
         this.setState({ 'currentState' : this.state.idle });
     }
     
-    async init() {
+    init() {
         if (!this.playMode) {
-            this.buttonToggleDisable(this.recordButton);
-            let stream = await navigator.mediaDevices.getUserMedia({ audio : true });
-            this.initRecord(stream);
-            this.buttonToggleDisable(this.recordButton);
+            this.isUserLogged().then(async uid => {
+                this.uid = uid;
+                if (this.uid) {
+                    this.listUserAudios();
+                    this.buttonToggleDisable(this.recordButton);
+                    let stream = await navigator.mediaDevices.getUserMedia({ audio : true });
+                    this.initRecord(stream);
+                    this.buttonToggleDisable(this.recordButton);
+                }
+                else {
+                    this.buttonDisable(this.recordButton);
+                }
+            });
         }
         this.initAudio();
     }

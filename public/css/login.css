@@ -17,13 +17,13 @@ h1 a {
 }
 
 .login-container, #login-oauth-container {
-    background: hsl(0, 0%, 50%);
+    background: hsl(294, 44.5%, 66%);
     border-radius: 8px;
-    padding: 20px;
 }
 
 .login-container {
     box-sizing: border-box;
+    padding: 20px;
     width: 400px;
 }
 
@@ -36,11 +36,30 @@ h1 a {
 #login-oauth-container {
     align-items: center;
     display: flex;
+    gap: 14px;
     justify-content: center;
+    padding-block: 8px;
+    padding-inline: 14px;
+}
+
+.oauth-option {
+    background-color: hsl(0, 0%, 30%);
+    border-radius: 16px;
+    padding-block: .5em;
+    padding-inline: 1em;
+}
+
+.google {
+    background-color: hsl(222, 100%, 85%);
+}
+
+.github {
+    background-color: hsl(280, 50%, 85%);
 }
 
 #login-oauth-container img {
-    max-width: 100px;
+    height: auto;
+    max-width: 50px;
 }
 
 .login-container input {

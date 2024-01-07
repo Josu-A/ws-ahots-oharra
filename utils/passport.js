@@ -4,28 +4,49 @@ require('dotenv').config();
 const mongojs = require('mongojs');
 const db = mongojs('grabaketak', ['userdata']);
 
-// passport setup
 passport.use(new GoogleStrategy({
         "clientID" : process.env.GOOGLE_CLIENT_ID,
         "clientSecret" : process.env.GOOGLE_CLIENT_SECRET,
         "callbackURL" : "/auth/google/callback"
     },
     (accessToken, refreshToken, profile, done) => {
-        console.log(profile);
-        done(null, profile);
+        db.userdata.findOne({ "googleId" : profile.id }, (error, user) => {
+            if (error) {
+                console.error(error);
+                return done(error, undefined);
+            }
+            if (user) {
+                done(null, user);
+            }
+            else {
+                const newUser = {
+                    "username" : profile.displayName,
+                    "email" : profile.emails[0].value,
+                    "googleId" : profile.id
+                }
+                db.userdata.insert(newUser, (error, user) => {
+                    if (error) {
+                        console.error(error);
+                    }
+                    done(error, user);
+                })
+            }
+        });
     }
 ));
 
-// Serialize user
-// erabiltzailearen zein datu gorde saioan?
 passport.serializeUser((user, done) => {
-    done(null, user);
+    const userId = user._id.toString();
+    done(null, userId);
 });
 
-// Deserialize user
-// erabiltzailearen datuak saiotik erauzi
-passport.deserializeUser((user, done) => {
-    done(null, user);
+passport.deserializeUser((id, done) => {
+    db.userdata.findOne({ "_id" : mongojs.ObjectId(id) }, (error, user) => {
+        if (error) {
+            console.error(error);
+        }
+        done(error, user);
+    });
 });
 
 module.exports = passport;
