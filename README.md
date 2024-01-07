@@ -43,6 +43,14 @@ npm start
 
 Portu zehatz batean hasieratzeko, *x* portu zenbakia izanik:
 
+<details><summary>cross-env erabilz</summary>
+
+```bash
+cross-env PORT=x npm start
+```
+
+</details>
+
 <details><summary>Linux / MacOS</summary>
 
 ```bash
@@ -68,6 +76,14 @@ $env:PORT='x'; npm start
 </details>
 
 ### Debugging moduan hasieratu
+
+<details><summary>cross-env erabiliz</summary>
+
+```bash
+cross-env DEBUG=ahots-oharra:* npm start
+```
+
+</details>
 
 <details><summary>Linux / MacOS</summary>
 

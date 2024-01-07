@@ -3,8 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start" : "node ./bin/www",
-        "build" : "mkdir recordings && touch .env"
+        "start": "node ./bin/www",
+        "build": "mkdir recordings && touch .env"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",
@@ -23,5 +23,8 @@
         "passport": "^0.7.0",
         "passport-github2": "^0.1.12",
         "passport-google-oauth20": "^2.0.0"
+    },
+    "devDependencies": {
+        "cross-env": "^7.0.3"
     }
 }
