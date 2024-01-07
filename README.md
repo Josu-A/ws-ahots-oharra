@@ -55,8 +55,8 @@ Beharrezko sekretuak gorde `.env` fitxategian:
 |SESSION\_SECRET|Sesioak zifratzeko string bat|
 |GOOGLE\_CLIENT\_ID|Google-eko *OAuth 2.0 Client ID* egiaztagiriaren *Client ID*-a|
 |GOOGLE\_CLIENT\_SECRET|Google-eko *OAuth 2.0 Client ID* egiaztagiriaren *Client secret*-a|
-|GITHUB\_CLIENT\_ID||
-|GITHUB\_CLIENT\_SECRET||
+|GITHUB\_CLIENT\_ID|GitHub-eko *OAuth* aplikazioaren *Client ID*-a|
+|GITHUB\_CLIENT\_SECRET|GitHub-eko *OAuth* aplikazioaren *Client Secrets*-a|
 
 Sare aplikazioa hasieratu defektuzko 3100 portuan:
 
