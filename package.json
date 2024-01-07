@@ -3,7 +3,8 @@
     "version": "0.0.0",
     "private": true,
     "scripts": {
-        "start": "sudo service mongodb start; node ./bin/www --watch"
+        "start" : "node ./bin/www",
+        "build" : "mkdir recordings && touch .env"
     },
     "dependencies": {
         "bcrypt": "^5.1.1",

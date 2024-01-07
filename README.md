@@ -10,6 +10,7 @@ Nabigatzailea erabiliz ahots oharrak grabatu eta partekatzeko aplikazio bat gara
 
 - *npm*
 - *Node.js*
+- *MongoDB*
 
 ### Nola eraiki
 
@@ -26,6 +27,12 @@ npm dependenziak instalatu:
 npm install
 ```
 
+proiektua eraiki
+
+```bash
+npm build
+```
+
 Sare aplikazioa hasieratu defektuzko 3100 portuan:
 
 ```bash
@@ -39,7 +46,7 @@ Portu zehatz batean hasieratzeko, *x* portu zenbakia izanik:
 <details><summary>Linux / MacOS</summary>
 
 ```bash
-set PORT=x & npm start
+PORT=x npm start
 ```
 
 </details>
