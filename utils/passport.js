@@ -39,7 +39,8 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
         "clientID" : process.env.GITHUB_CLIENT_ID,
         "clientSecret" : process.env.GITHUB_CLIENT_SECRET,
-        "callbackURL" : "https://ws.aguijos.eus/auth/github/callback"
+        "callbackURL" : "https://ws.aguijos.eus/auth/github/callback",
+        "scope" : "user:email"
     },
     (accessToken, refreshToken, profile, done) => {
         console.log(profile)
