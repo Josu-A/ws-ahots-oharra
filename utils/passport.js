@@ -8,7 +8,7 @@ const db = mongojs('grabaketak', ['userdata']);
 passport.use(new GoogleStrategy({
         "clientID" : process.env.GOOGLE_CLIENT_ID,
         "clientSecret" : process.env.GOOGLE_CLIENT_SECRET,
-        "callbackURL" : "/auth/google/callback"
+        "callbackURL" : "https://ws.aguijos.eus/auth/google/callback"
     },
     (accessToken, refreshToken, profile, done) => {
         db.userdata.findOne({ "googleId" : profile.id }, (error, user) => {
@@ -39,7 +39,7 @@ passport.use(new GoogleStrategy({
 passport.use(new GitHubStrategy({
         "clientID" : process.env.GITHUB_CLIENT_ID,
         "clientSecret" : process.env.GITHUB_CLIENT_SECRET,
-        "callbackURL" : "/auth/github/callback"
+        "callbackURL" : "https://ws.aguijos.eus/auth/github/callback"
     },
     (accessToken, refreshToken, profile, done) => {
         db.userdata.findOne({ "githubId" : profile.id }, (error, user) => {
