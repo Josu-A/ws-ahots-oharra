@@ -43,7 +43,6 @@ passport.use(new GitHubStrategy({
         "scope" : "user:email"
     },
     (accessToken, refreshToken, profile, done) => {
-        console.log(profile)
         db.userdata.findOne({ "githubId" : profile.id }, (error, user) => {
             if (error) {
                 console.error(error);
