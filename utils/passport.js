@@ -42,6 +42,7 @@ passport.use(new GitHubStrategy({
         "callbackURL" : "https://ws.aguijos.eus/auth/github/callback"
     },
     (accessToken, refreshToken, profile, done) => {
+        console.log(profile)
         db.userdata.findOne({ "githubId" : profile.id }, (error, user) => {
             if (error) {
                 console.error(error);
