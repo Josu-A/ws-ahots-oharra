@@ -21,17 +21,42 @@ git clone https://github.com/Josu-A/ws-ahots-oharra.git
 cd ws-ahots-oharra
 ```
 
+#### MongoDB
+
+`mongodb` zerbitzaria hasieratu zure zerbitzu kudeatzailearekin.
+
+`mongo` edo `mongosh` exekutatu datu-basea sortzeko:
+
+```
+use grabaketak
+db.createCollection('userdata')
+db.createCollection('users')
+db.createCollection('storedSessions')
+```
+
+#### Node
+
 npm dependenziak instalatu:
 
 ```bash
 npm install
 ```
 
-proiektua eraiki
+Proiektua eraiki:
 
 ```bash
 npm build
 ```
+
+Beharrezko sekretuak gorde `.env` fitxategian:
+
+|Aldagaia|Balioa|
+|---|---|
+|SESSION\_SECRET|Sesioak zifratzeko string bat|
+|GOOGLE\_CLIENT\_ID|Google-eko *OAuth 2.0 Client ID* egiaztagiriaren *Client ID*-a|
+|GOOGLE\_CLIENT\_SECRET|Google-eko *OAuth 2.0 Client ID* egiaztagiriaren *Client secret*-a|
+|GITHUB\_CLIENT\_ID||
+|GITHUB\_CLIENT\_SECRET||
 
 Sare aplikazioa hasieratu defektuzko 3100 portuan:
 
