@@ -70,8 +70,8 @@ Beharrezko sekretuak gorde `.env` fitxategian:
 |GOOGLE\_CLIENT\_SECRET|Google-eko *OAuth 2.0 Client ID* egiaztagiriaren *Client secret*-a|
 |GITHUB\_CLIENT\_ID|GitHub-eko *OAuth* aplikazioaren *Client ID*-a|
 |GITHUB\_CLIENT\_SECRET|GitHub-eko *OAuth* aplikazioaren *Client Secrets*-a|
-|TWITTER\_CLIENT\_ID|Twitter-eko *OAuth 2.0* aplikazioaren *Client ID*-a|
-|TWITTER\_CLIENT\_SECRET|Twitter-eko *OAuth 2.0* aplikazioaren *Client Secret*-a|
+|TWITTER\_CONSUMER\_ID|Twitter-eko *OAuth 1.0* aplikazioaren *Consumer API Key*-a|
+|TWITTER\_CONSUMER\_SECRET|Twitter-eko *OAuth 1.0* aplikazioaren *Consumer API Secret*-a|
 
 
 `./utils/config.js` fitxategiko `myUrl` aldagaia aldatu zure webguneko domeinura.
