@@ -70,6 +70,9 @@ Beharrezko sekretuak gorde `.env` fitxategian:
 |GOOGLE\_CLIENT\_SECRET|Google-eko *OAuth 2.0 Client ID* egiaztagiriaren *Client secret*-a|
 |GITHUB\_CLIENT\_ID|GitHub-eko *OAuth* aplikazioaren *Client ID*-a|
 |GITHUB\_CLIENT\_SECRET|GitHub-eko *OAuth* aplikazioaren *Client Secrets*-a|
+|TWITTER\_CLIENT\_ID|Twitter-eko *OAuth 2.0* aplikazioaren *Client ID*-a|
+|TWITTER\_CLIENT\_SECRET|Twitter-eko *OAuth 2.0* aplikazioaren *Client Secret*-a|
+
 
 `./utils/config.js` fitxategiko `myUrl` aldagaia aldatu zure webguneko domeinura.
 

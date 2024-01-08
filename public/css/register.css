@@ -53,6 +53,10 @@
     background-color: hsl(280, 50%, 85%);
 }
 
+.twitter {
+    background-color: hsl(0, 0%, 100%);
+}
+
 #register-oauth-container img {
     height: auto;
     max-width: 50px;

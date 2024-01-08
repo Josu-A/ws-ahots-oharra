@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 
-router.get('/google', passport.authenticate('google',{
+router.get('/google', passport.authenticate('google', {
     "scope" : ["profile", "email"]
 }));
 
@@ -24,6 +24,16 @@ router.get('/github/callback', passport.authenticate('github', { "failureRedirec
         req.session.username = req.user.username;
         res.status(200).redirect('/');
     }
+);
+
+router.get('/twitter', passport.authenticate('twitter'));
+
+router.get('/twitter/callback', passport.authenticate('twitter', { "failureRedirect" : "/login" }),
+    (req, res) => {
+        req.session.userid = req.user._id.toString();
+        req.session.username = req.user.username;
+        res.status(200).redirect('/');
+    }  
 );
 
 module.exports = router;
