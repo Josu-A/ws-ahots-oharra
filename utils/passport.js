@@ -74,7 +74,8 @@ passport.use(new GitHubStrategy({
 passport.use(new TwitterStrategy({
         "consumerKey" : process.env.TWITTER_CONSUMER_ID,
         "consumerSecret" : process.env.TWITTER_CONSUMER_SECRET,
-        "callbackURL" : `${myUrl}/auth/twitter/callback`
+        "callbackURL" : `${myUrl}/auth/twitter/callback`,
+        "includeEmail" : true
     },
     (token, tokenSecret, profile, done) => {
         db.userdata.findOne({ "twitterId" : profile.id }, (error, user) => {
