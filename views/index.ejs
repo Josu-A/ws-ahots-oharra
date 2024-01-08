@@ -29,7 +29,12 @@
     <div id="container">
         <% include templates/header.ejs %>
         <main>
-            <section class="ahots-buttons">
+            <section class="ahots-buttons<% if (shouldBlurButtons) { %> blur<% } %>">
+                <% if (shouldBlurButtons) { %>
+                <div class="login-msg">
+                    <p>Saioa hasi grabatu ahal izateko!</p>
+                </div>
+                <% } %>
                 <div id="record-button"></div>
                 <div id="play-button"></div>
                 <div id="upload-button"></div>

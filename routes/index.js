@@ -3,7 +3,8 @@ const router = express.Router();
 
 router.get('/', function(req, res) {
     res.status(200).render('index', {
-        "logged" : req.session.username
+        "logged" : req.session.username,
+        "shouldBlurButtons" : !(req.session.username || req.query.play)
     });
 });
 
