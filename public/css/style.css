@@ -136,12 +136,13 @@ main {
 
 footer {
     align-items: center;
+    column-gap: 1em;
     display: flex;
+    flex-wrap: wrap;
     font-size: .6em;
-    gap: 1em;
     justify-content: center;
     margin-top: 1em;
-    padding-bottom: 1em;
+    padding-block: 1em;
     text-align: center;
 }
 
@@ -150,7 +151,7 @@ footer img {
 }
 
 footer > * {
-    margin-block: 1em;
+    margin-block: 0;
 }
 
 footer, .ahots-list {
