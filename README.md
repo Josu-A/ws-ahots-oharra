@@ -162,4 +162,4 @@ $env:DEBUG='ahots-oharra:*'; npm start
 
 ## Egileak
 
-**Josu Aguinaga**-k eginda eta [ws.aguijos.eus](https://ws.aguijos.eus)-en publikatua.
+**Josu Aguinaga**-k eginda.
